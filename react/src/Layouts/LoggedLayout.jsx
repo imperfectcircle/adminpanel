@@ -1,17 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Navigate, Outlet } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { HiUserCircle, HiChartPie, HiUser } from 'react-icons/hi';
 import { motion } from 'framer-motion';
+import axiosClient from '../axios-client';
 
 export default function LoggedLayout() {
+    useEffect(() => {
+        axiosClient.get('/user').then(({ data }) => {
+            setUser(data);
+        });
+    }, []);
+
     const [userIsVisible, setUserIsVisible] = useState(false);
     const [menuIsVisible, setMenuIsVisible] = useState(false);
-    const { user, token } = useStateContext();
+    const { user, token, setUser, setToken } = useStateContext();
 
     if (!token) {
         return <Navigate to="/login" />;
     }
+
+    const onLogout = (event) => {
+        event.preventDefault();
+
+        axiosClient.post('/logout').then(() => {
+            setUser({});
+            setToken(null);
+        });
+    };
 
     const handleUserVisibility = () => {
         setUserIsVisible(!userIsVisible);
@@ -41,13 +57,18 @@ export default function LoggedLayout() {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <p>User Name</p>
-                        <Link to="#">Logout</Link>
+                        <p className="pb-3 text-red-700 first-letter:uppercase">
+                            {user.name}
+                        </p>
+
+                        <Link onClick={onLogout} to="/logout">
+                            Logout
+                        </Link>
                     </motion.div>
                 </div>
             </header>
             <div className="fixed top-[60px] grid h-screen w-full grid-cols-5 ">
-                <aside className=" bg-sky-400 pt-16 text-xl  text-white shadow-lg shadow-black">
+                <aside className=" min-w-[256px] bg-sky-400 pt-16 text-xl  text-white shadow-lg shadow-black">
                     <div className="space-y-3">
                         <Link
                             className="flex items-center pl-10"
@@ -93,7 +114,7 @@ export default function LoggedLayout() {
                         </div>
                     </div>
                 </aside>
-                <main className="col-span-4 overflow-auto p-10">
+                <main className="col-span-4 p-10">
                     <Outlet />
                 </main>
             </div>
