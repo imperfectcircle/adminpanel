@@ -85,7 +85,7 @@ export default function Signup() {
                     placeholder="Conferma Password"
                 />
                 <button className="mx-auto w-1/3 rounded-lg bg-sky-300 py-3 font-bold text-white shadow-md duration-150 hover:bg-sky-400">
-                    Accedi
+                    Registrati
                 </button>
             </form>
         </>

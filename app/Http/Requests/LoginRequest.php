@@ -22,8 +22,18 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:55|exists:users,name',
+            'name' => 'required|string|max:20|exists:users,name',
             'password' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Il campo nome utente è obbligatorio.',
+            'name.max' => 'Il nome utente può avere una lunghezza massima di 20 caratteri.',
+            'name.exists' => 'Il nome utente inserito non esiste.',
+            'password.required' => 'Il campo password è obbligatorio.'
         ];
     }
 }

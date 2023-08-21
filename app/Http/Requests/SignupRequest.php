@@ -23,7 +23,7 @@ class SignupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:55|unique:users,name',
+            'name' => 'required|string|max:20|unique:users,name',
             'email' => 'required|email|unique:users,email',
             'password' => [
                 'required',
@@ -32,6 +32,20 @@ class SignupRequest extends FormRequest
                     ->letters()
                     ->symbols()
             ]
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Il campo nome utente è obbligatorio.',
+            'name.max' => 'Il nome utente può avere una lunghezza massima di 20 caratteri.',
+            'name.unique' => 'Il nome utente inserito esiste già.',
+            'email.required' => 'Il campo email è obbligatorio.',
+            'email.unique' => 'L\'indirizzo email inserito esiste già.',
+            'password.required' => 'Il campo password è obbligatorio.',
+            'password.confirmed' => 'Le password non corrispondono',
+            'password.min' => 'La password deve avere almeno 8 caratteri.',
         ];
     }
 }
