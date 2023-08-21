@@ -3,6 +3,7 @@ import { Link, Navigate, Outlet } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { HiUserCircle, HiChartPie, HiUser } from 'react-icons/hi';
 import { AiOutlineUnorderedList, AiOutlinePlus } from 'react-icons/ai';
+import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 import { ImSwitch } from 'react-icons/im';
 import { AnimatePresence, motion } from 'framer-motion';
 import axiosClient from '../axios-client';
@@ -95,7 +96,15 @@ export default function LoggedLayout() {
                                     className="cursor-pointer"
                                     onClick={handleUserVisibility}
                                 >
-                                    Utenti
+                                    <div className="flex items-center">
+                                        Utenti
+                                        {userIsVisible && (
+                                            <RiArrowUpSLine className="ml-3" />
+                                        )}
+                                        {!userIsVisible && (
+                                            <RiArrowDownSLine className="ml-3" />
+                                        )}
+                                    </div>
                                 </p>
                             </div>
                             <AnimatePresence>

@@ -5,6 +5,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from './router.jsx';
 import { ContextProvider } from './Contexts/ContextProvider.jsx';
 import { AnimatePresence, motion } from 'framer-motion';
+import { HelmetProvider } from 'react-helmet-async';
 
 const fadeInAnimation = {
     hidden: {
@@ -20,17 +21,19 @@ const fadeInAnimation = {
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <ContextProvider>
-            <AnimatePresence mode="wait">
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    exit="hidden"
-                    variants={fadeInAnimation}
-                    transition={{ duration: 0.5 }}
-                >
-                    <RouterProvider router={router} />
-                </motion.div>
-            </AnimatePresence>
+            <HelmetProvider>
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        variants={fadeInAnimation}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <RouterProvider router={router} />
+                    </motion.div>
+                </AnimatePresence>
+            </HelmetProvider>
         </ContextProvider>
     </React.StrictMode>,
 );

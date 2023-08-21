@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import axiosClient from '../axios-client';
 import { useStateContext } from '../Contexts/ContextProvider';
+import { Helmet } from 'react-helmet-async';
 
 export default function UserForm() {
     const { id } = useParams();
@@ -77,6 +78,16 @@ export default function UserForm() {
 
     return (
         <>
+            {user.id && (
+                <Helmet>
+                    <title>Pannello di gestione | Modifica Utente</title>
+                </Helmet>
+            )}
+            {!user.id && (
+                <Helmet>
+                    <title>Pannello di gestione | Crea Utente</title>
+                </Helmet>
+            )}
             {user.id && (
                 <h1 className="text-center text-4xl font-bold">
                     Stai modificando l&apos;utente: {user.name}

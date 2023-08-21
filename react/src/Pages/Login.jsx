@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import axiosClient from '../axios-client';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useStateContext } from '../Contexts/ContextProvider';
 
 export default function Login() {
@@ -7,6 +8,7 @@ export default function Login() {
     const passwordRef = useRef();
 
     const [errors, setErrors] = useState(null);
+    const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
     const { setUser, setToken } = useStateContext();
 
@@ -39,6 +41,10 @@ export default function Login() {
             });
     };
 
+    const handelPasswordVisibility = () => {
+        setPasswordIsVisible(!passwordIsVisible);
+    };
+
     return (
         <>
             {errors && (
@@ -64,14 +70,28 @@ export default function Login() {
                     id="name"
                     placeholder="Nome Utente"
                 />
-                <input
-                    ref={passwordRef}
-                    className="rounded-md shadow-lg focus:bg-emerald-100"
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="Password"
-                />
+                <div className="relative flex">
+                    <input
+                        ref={passwordRef}
+                        className="w-full rounded-md shadow-lg focus:bg-emerald-100"
+                        type={passwordIsVisible ? 'text' : 'password'}
+                        name="password"
+                        id="password"
+                        placeholder="Password"
+                    />
+                    {!passwordIsVisible && (
+                        <AiOutlineEye
+                            onClick={handelPasswordVisibility}
+                            className="absolute right-[4%] top-[28%] cursor-pointer"
+                        />
+                    )}
+                    {passwordIsVisible && (
+                        <AiOutlineEyeInvisible
+                            onClick={handelPasswordVisibility}
+                            className="absolute right-[4%] top-[28%] cursor-pointer"
+                        />
+                    )}
+                </div>
                 <button className="mx-auto w-1/3 rounded-lg bg-sky-300 py-3 font-bold text-white shadow-md duration-150 hover:bg-sky-400">
                     Accedi
                 </button>
