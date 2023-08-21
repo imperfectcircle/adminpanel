@@ -16,7 +16,7 @@ export default function LoggedLayout() {
 
     const [userIsVisible, setUserIsVisible] = useState(false);
     const [menuIsVisible, setMenuIsVisible] = useState(false);
-    const { user, token, setUser, setToken } = useStateContext();
+    const { user, token, notification, setUser, setToken } = useStateContext();
 
     if (!token) {
         return <Navigate to="/login" />;
@@ -116,7 +116,7 @@ export default function LoggedLayout() {
                                         </Link>
                                         <Link
                                             className="flex items-center text-lg text-black transition-all duration-150 hover:text-red-500"
-                                            to="#"
+                                            to="/users/new"
                                         >
                                             <AiOutlinePlus className="mr-3" />
                                             Crea Nuovo Utente
@@ -129,6 +129,19 @@ export default function LoggedLayout() {
                 </aside>
                 <main className="col-span-2 p-10 md:col-span-4">
                     <Outlet />
+                    <AnimatePresence>
+                        {notification && (
+                            <motion.div
+                                className="fixed right-4 top-4 z-50 rounded-lg bg-emerald-500 p-5 text-white shadow-lg"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <p className="text-lg">{notification}</p>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </main>
             </div>
         </section>
