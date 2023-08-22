@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 export default function Users() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [inputText, setInputText] = useState('');
     const { setNotification } = useStateContext();
 
     useEffect(() => {
@@ -37,6 +38,19 @@ export default function Users() {
         });
     };
 
+    const handleInput = (event) => {
+        const lowerCase = event.target.value.toLowerCase();
+        setInputText(lowerCase);
+    };
+
+    const filteredData = users.filter((user) => {
+        if (inputText === '') {
+            return user;
+        } else {
+            return user.name.toLowerCase().includes(inputText);
+        }
+    });
+
     return (
         <>
             <Helmet>
@@ -45,6 +59,20 @@ export default function Users() {
             <div>
                 <div className="text-center">
                     <h1 className="text-4xl font-bold">Utenti</h1>
+                </div>
+                <div className="my-5 text-center">
+                    <input
+                        className={`w-1/3 rounded-md shadow-lg ${
+                            filteredData.length === 0
+                                ? 'focus:bg-red-200'
+                                : 'focus:bg-emerald-100'
+                        }`}
+                        type="text"
+                        name=""
+                        id=""
+                        placeholder="Cerca Utente per Nome Utente"
+                        onChange={handleInput}
+                    />
                 </div>
                 <div className="mt-5 rounded-lg bg-white p-5 shadow-lg">
                     <table className="w-full border-separate border-spacing-4">
@@ -57,6 +85,42 @@ export default function Users() {
                                 <th>Azioni</th>
                             </tr>
                         </thead>
+                        {inputText && (
+                            <tbody>
+                                {filteredData.map((el) => (
+                                    <tr className="text-center" key={el.id}>
+                                        <td>{el.id}</td>
+                                        <td>{el.name}</td>
+                                        <td>{el.email}</td>
+                                        <td>{el.created_at}</td>
+                                        <td className="space-x-3 px-6 py-3">
+                                            <Link
+                                                className="rounded-lg bg-emerald-500 px-6 py-3 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
+                                                to={'/users/' + el.id}
+                                            >
+                                                Modifica
+                                            </Link>
+                                            <button
+                                                className="rounded-lg bg-red-500 px-6 py-3 text-white shadow-lg transition-all duration-150 hover:bg-red-600"
+                                                onClick={() => onDelete(el)}
+                                            >
+                                                Elimina
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                                {filteredData.length === 0 && (
+                                    <tr>
+                                        <td colSpan="5" className="text-center">
+                                            <p className="text-lg">
+                                                Utente non trovato
+                                            </p>
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        )}
+
                         {loading && (
                             <tbody>
                                 <tr>
@@ -68,7 +132,7 @@ export default function Users() {
                                 </tr>
                             </tbody>
                         )}
-                        {!loading && (
+                        {!inputText && !loading && (
                             <tbody>
                                 {users.map((user) => (
                                     <tr className="text-center" key={user.id}>
