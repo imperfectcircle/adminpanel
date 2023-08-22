@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { Link, Navigate, Outlet } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';

@@ -71,10 +71,7 @@ export default function Users() {
                         {!loading && (
                             <tbody>
                                 {users.map((user) => (
-                                    <tr
-                                        className="border-b-2 text-center"
-                                        key={user.id}
-                                    >
+                                    <tr className="text-center" key={user.id}>
                                         <td>{user.id}</td>
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
@@ -88,9 +85,7 @@ export default function Users() {
                                             </Link>
                                             <button
                                                 className="rounded-lg bg-red-500 px-6 py-3 text-white shadow-lg transition-all duration-150 hover:bg-red-600"
-                                                onClick={(event) =>
-                                                    onDelete(user)
-                                                }
+                                                onClick={() => onDelete(user)}
                                             >
                                                 Elimina
                                             </button>

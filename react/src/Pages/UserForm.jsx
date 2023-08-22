@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
@@ -101,6 +103,11 @@ export default function UserForm() {
                     {Object.keys(errors).map((key) => (
                         <p key={key}>{errors[key][0]}</p>
                     ))}
+                </div>
+            )}
+            {loading && (
+                <div className="p-5 text-center">
+                    <p className="text-lg">Caricamento...</p>
                 </div>
             )}
             {!loading && (
