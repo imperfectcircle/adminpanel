@@ -6,6 +6,7 @@ import { HiUserCircle, HiChartPie, HiUser } from 'react-icons/hi';
 import { AiOutlineUnorderedList, AiOutlinePlus } from 'react-icons/ai';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 import { ImSwitch } from 'react-icons/im';
+import { BsFillInboxFill } from 'react-icons/bs';
 import { AnimatePresence, motion } from 'framer-motion';
 import axiosClient from '../axios-client';
 
@@ -18,6 +19,7 @@ export default function LoggedLayout() {
 
     const [userIsVisible, setUserIsVisible] = useState(false);
     const [menuIsVisible, setMenuIsVisible] = useState(false);
+    const [orderIsVisible, setOrderIsVisible] = useState(false);
     const { user, token, notification, setUser, setToken } = useStateContext();
 
     if (!token) {
@@ -39,6 +41,10 @@ export default function LoggedLayout() {
 
     const handleMenuVisibility = () => {
         setMenuIsVisible(!menuIsVisible);
+    };
+
+    const handleOrderVisibility = () => {
+        setOrderIsVisible(!orderIsVisible);
     };
 
     return (
@@ -80,10 +86,13 @@ export default function LoggedLayout() {
             </header>
             <div className="grid h-screen w-full grid-cols-3 pt-[60px] md:grid-cols-5 ">
                 <aside className="min-w-fit bg-sky-400 pt-16 text-xl  text-white shadow-lg shadow-black">
-                    <div className="space-y-3">
+                    <div className="sticky top-10 space-y-3">
                         <Link
                             className="flex items-center pl-10"
-                            onClick={() => setUserIsVisible(false)}
+                            onClick={() => {
+                                setUserIsVisible(false);
+                                setOrderIsVisible(false);
+                            }}
                             to="/dashboard"
                         >
                             <HiChartPie className="mr-3" />
@@ -97,7 +106,7 @@ export default function LoggedLayout() {
                                     className="cursor-pointer"
                                     onClick={handleUserVisibility}
                                 >
-                                    <div className="flex items-center">
+                                    <span className="flex items-center">
                                         Utenti
                                         {userIsVisible && (
                                             <RiArrowUpSLine className="ml-3" />
@@ -105,7 +114,7 @@ export default function LoggedLayout() {
                                         {!userIsVisible && (
                                             <RiArrowDownSLine className="ml-3" />
                                         )}
-                                    </div>
+                                    </span>
                                 </p>
                             </div>
                             <AnimatePresence>
@@ -130,6 +139,52 @@ export default function LoggedLayout() {
                                         >
                                             <AiOutlinePlus className="mr-3" />
                                             Crea Nuovo Utente
+                                        </Link>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        <div className="">
+                            <div className="flex items-center space-x-3 pl-10">
+                                <BsFillInboxFill />
+                                <p
+                                    className="cursor-pointer"
+                                    onClick={handleOrderVisibility}
+                                >
+                                    <span className="flex items-center">
+                                        Ordini
+                                        {orderIsVisible && (
+                                            <RiArrowUpSLine className="ml-3" />
+                                        )}
+                                        {!orderIsVisible && (
+                                            <RiArrowDownSLine className="ml-3" />
+                                        )}
+                                    </span>
+                                </p>
+                            </div>
+                            <AnimatePresence>
+                                {orderIsVisible && (
+                                    <motion.div
+                                        className="flex w-full flex-col bg-gray-100 p-3 pl-12"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.6 }}
+                                    >
+                                        <Link
+                                            className="flex items-center text-lg text-black transition-all duration-150 hover:text-red-500"
+                                            to="#"
+                                        >
+                                            <AiOutlineUnorderedList className="mr-3" />
+                                            Lista Ordini
+                                        </Link>
+                                        <Link
+                                            className="flex items-center text-lg text-black transition-all duration-150 hover:text-red-500"
+                                            to="#"
+                                        >
+                                            <AiOutlinePlus className="mr-3" />
+                                            Crea Nuovo Ordine
                                         </Link>
                                     </motion.div>
                                 )}

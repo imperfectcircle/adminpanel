@@ -16,10 +16,10 @@ export default function Users() {
 
     const getUsers = () => {
         setLoading(true);
-        axiosClient('/users')
+        axiosClient
+            .get('/users')
             .then(({ data }) => {
                 setLoading(false);
-                console.log(data);
                 setUsers(data.data);
             })
             .catch(() => {
@@ -28,12 +28,14 @@ export default function Users() {
     };
 
     const onDelete = (user) => {
-        if (!window.confirm('Sei sicuro di voler eliminare questo utente?')) {
+        if (!window.confirm(`Stai per eliminare l'utente ${user.name}`)) {
             return;
         }
 
         axiosClient.delete(`/users/${user.id}`).then(() => {
-            setNotification("L'utente è stato eliminato.");
+            setNotification(
+                `L'utente ${user.name} è stato eliminato correttamente.`,
+            );
             getUsers();
         });
     };
@@ -47,7 +49,10 @@ export default function Users() {
         if (inputText === '') {
             return user;
         } else {
-            return user.name.toLowerCase().includes(inputText);
+            return (
+                user.name.toLowerCase().includes(inputText) ||
+                user.email.toLowerCase().includes(inputText)
+            );
         }
     });
 
@@ -70,7 +75,7 @@ export default function Users() {
                         type="text"
                         name=""
                         id=""
-                        placeholder="Cerca Utente per Nome Utente"
+                        placeholder="Cerca per Nome Utente o Email"
                         onChange={handleInput}
                     />
                 </div>
@@ -137,18 +142,20 @@ export default function Users() {
                                 {users.map((user) => (
                                     <tr className="text-center" key={user.id}>
                                         <td>{user.id}</td>
-                                        <td>{user.name}</td>
+                                        <td className="first-letter:uppercase">
+                                            {user.name}
+                                        </td>
                                         <td>{user.email}</td>
                                         <td>{user.created_at}</td>
                                         <td className="space-x-3 px-6 py-3">
                                             <Link
-                                                className="rounded-lg bg-emerald-500 px-6 py-3 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
+                                                className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
                                                 to={'/users/' + user.id}
                                             >
                                                 Modifica
                                             </Link>
                                             <button
-                                                className="rounded-lg bg-red-500 px-6 py-3 text-white shadow-lg transition-all duration-150 hover:bg-red-600"
+                                                className="rounded-lg bg-red-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-red-600"
                                                 onClick={() => onDelete(user)}
                                             >
                                                 Elimina

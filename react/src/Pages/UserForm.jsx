@@ -45,7 +45,9 @@ export default function UserForm() {
             axiosClient
                 .put(`/users/${user.id}`, user)
                 .then(() => {
-                    setNotification("L'utente è stato modificato.");
+                    setNotification(
+                        `L'utente ${user.name} è stato modificato correttamente.`,
+                    );
                     navigate('/users');
                 })
                 .catch((error) => {
@@ -58,7 +60,7 @@ export default function UserForm() {
             axiosClient
                 .post(`/users/`, user)
                 .then(() => {
-                    setNotification("L'utente è stato creato.");
+                    setNotification(`L'utente ${user.name} è stato creato.`);
                     navigate('/users');
                 })
                 .catch((error) => {
