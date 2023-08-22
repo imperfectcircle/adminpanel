@@ -24,8 +24,8 @@ export default function UserForm() {
         password_confirmation: '',
     });
 
-    if (id) {
-        useEffect(() => {
+    useEffect(() => {
+        if (id) {
             setLoading(true);
             axiosClient
                 .get(`/users/${id}`)
@@ -36,8 +36,8 @@ export default function UserForm() {
                 .catch(() => {
                     setLoading(false);
                 });
-        }, []);
-    }
+        }
+    }, []);
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -130,6 +130,7 @@ export default function UserForm() {
                             type="text"
                             name="username"
                             id="username"
+                            autoComplete="username"
                             placeholder="Nome Utente"
                         />
                     </div>
@@ -144,6 +145,7 @@ export default function UserForm() {
                             type="email"
                             name="email"
                             id="email"
+                            autoComplete="email"
                             placeholder="Indirizzo Email"
                         />
                     </div>
@@ -161,6 +163,7 @@ export default function UserForm() {
                                 type={passwordIsVisible ? 'text' : 'password'}
                                 name="password"
                                 id="password"
+                                autoComplete="new-password"
                                 placeholder="Password"
                             />
                             {!passwordIsVisible && (
@@ -197,6 +200,7 @@ export default function UserForm() {
                                 }
                                 name="password_confirmation"
                                 id="password_confirmation"
+                                autoComplete="new-password"
                                 placeholder="Conferma Password"
                             />
                             {!passwordConfirmationIsVisible && (
@@ -218,8 +222,7 @@ export default function UserForm() {
                         </div>
                     </div>
                     <button className="mx-auto w-1/3 rounded-lg bg-emerald-500 py-3 font-bold text-white shadow-md duration-150 hover:bg-emerald-600">
-                        {user.id && 'Modifica Utente'}
-                        {!user.id && 'Crea Utente'}
+                        {id ? 'Modifica Utente' : 'Crea Utente'}
                     </button>
                 </form>
             )}

@@ -68,6 +68,7 @@ export default function Login() {
                     type="text"
                     name="name"
                     id="name"
+                    autoComplete="username"
                     placeholder="Nome Utente"
                 />
                 <div className="relative flex">
@@ -77,6 +78,7 @@ export default function Login() {
                         type={passwordIsVisible ? 'text' : 'password'}
                         name="password"
                         id="password"
+                        autoComplete="current-password"
                         placeholder="Password"
                     />
                     {!passwordIsVisible && (

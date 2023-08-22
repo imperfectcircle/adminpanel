@@ -57,6 +57,7 @@ export default function Signup() {
                     type="text"
                     name="username"
                     id="username"
+                    autoComplete="username"
                     placeholder="Nome Utente"
                 />
                 <input
@@ -65,6 +66,7 @@ export default function Signup() {
                     type="email"
                     name="email"
                     id="email"
+                    autoComplete="email"
                     placeholder="Indirizzo Email"
                 />
                 <input
@@ -73,6 +75,7 @@ export default function Signup() {
                     type="password"
                     name="password"
                     id="password"
+                    autoComplete="new-password"
                     placeholder="Password"
                 />
                 <input
@@ -81,6 +84,7 @@ export default function Signup() {
                     type="password"
                     name="password_confirmation"
                     id="password_confirmation"
+                    autoComplete="new-password"
                     placeholder="Conferma Password"
                 />
                 <button className="mx-auto w-1/3 rounded-lg bg-sky-300 py-3 font-bold text-white shadow-md duration-150 hover:bg-sky-400">
