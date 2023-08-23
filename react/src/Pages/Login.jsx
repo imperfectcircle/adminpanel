@@ -1,14 +1,15 @@
 import { useRef, useState } from 'react';
 import axiosClient from '../axios-client';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useStateContext } from '../Contexts/ContextProvider';
+import { usePasswordVisibility } from '../Hooks/usePasswordVisibility';
 
 export default function Login() {
     const nameRef = useRef();
     const passwordRef = useRef();
 
     const [errors, setErrors] = useState(null);
-    const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+    const [passwordIsVisible, togglePasswordVisibility, PasswordIcon] =
+        usePasswordVisibility();
 
     const { setUser, setToken } = useStateContext();
 
@@ -17,7 +18,6 @@ export default function Login() {
 
         const payload = {
             name: nameRef.current.value,
-
             password: passwordRef.current.value,
         };
         setErrors(null);
@@ -39,10 +39,6 @@ export default function Login() {
                     }
                 }
             });
-    };
-
-    const handelPasswordVisibility = () => {
-        setPasswordIsVisible(!passwordIsVisible);
     };
 
     return (
@@ -81,18 +77,10 @@ export default function Login() {
                         autoComplete="current-password"
                         placeholder="Password"
                     />
-                    {!passwordIsVisible && (
-                        <AiOutlineEye
-                            onClick={handelPasswordVisibility}
-                            className="absolute right-[4%] top-[28%] cursor-pointer"
-                        />
-                    )}
-                    {passwordIsVisible && (
-                        <AiOutlineEyeInvisible
-                            onClick={handelPasswordVisibility}
-                            className="absolute right-[4%] top-[28%] cursor-pointer"
-                        />
-                    )}
+                    <PasswordIcon
+                        onClick={togglePasswordVisibility}
+                        className="absolute right-[4%] top-[28%] cursor-pointer"
+                    />
                 </div>
                 <button className="mx-auto w-1/3 rounded-lg bg-sky-300 py-3 font-bold text-white shadow-md duration-150 hover:bg-sky-400">
                     Accedi

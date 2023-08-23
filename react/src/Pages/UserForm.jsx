@@ -1,20 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
+
+//TODO check visivi password
+
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import axiosClient from '../axios-client';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { Helmet } from 'react-helmet-async';
+import { usePasswordVisibility } from '../Hooks/usePasswordVisibility';
+import { usePasswordConfVisibility } from '../Hooks/usePasswordConfVisibility';
 
 export default function UserForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState(null);
-    const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-    const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] =
-        useState(false);
+    const [passwordIsVisible, togglePasswordVisibility, PasswordIcon] =
+        usePasswordVisibility();
+    const [
+        passwordConfIsVisible,
+        togglePasswordConfVisibility,
+        PasswordConfIcon,
+    ] = usePasswordConfVisibility();
+
     const { setNotification } = useStateContext();
     const [user, setUser] = useState({
         id: null,
@@ -70,14 +79,6 @@ export default function UserForm() {
                     }
                 });
         }
-    };
-
-    const handelPasswordVisibility = () => {
-        setPasswordIsVisible(!passwordIsVisible);
-    };
-
-    const handelPasswordConfirmationVisibility = () => {
-        setPasswordConfirmationIsVisible(!passwordConfirmationIsVisible);
     };
 
     return (
@@ -166,18 +167,10 @@ export default function UserForm() {
                                 autoComplete="new-password"
                                 placeholder="Password"
                             />
-                            {!passwordIsVisible && (
-                                <AiOutlineEye
-                                    onClick={handelPasswordVisibility}
-                                    className="absolute right-[4%] top-[28%] cursor-pointer"
-                                />
-                            )}
-                            {passwordIsVisible && (
-                                <AiOutlineEyeInvisible
-                                    onClick={handelPasswordVisibility}
-                                    className="absolute right-[4%] top-[28%] cursor-pointer"
-                                />
-                            )}
+                            <PasswordIcon
+                                onClick={togglePasswordVisibility}
+                                className="absolute right-[4%] top-[28%] cursor-pointer"
+                            />
                         </div>
                     </div>
                     <div className="flex flex-col space-y-2">
@@ -194,31 +187,17 @@ export default function UserForm() {
                                 }
                                 className="w-full rounded-md shadow-lg focus:bg-emerald-100"
                                 type={
-                                    passwordConfirmationIsVisible
-                                        ? 'text'
-                                        : 'password'
+                                    passwordConfIsVisible ? 'text' : 'password'
                                 }
                                 name="password_confirmation"
                                 id="password_confirmation"
                                 autoComplete="new-password"
                                 placeholder="Conferma Password"
                             />
-                            {!passwordConfirmationIsVisible && (
-                                <AiOutlineEye
-                                    onClick={
-                                        handelPasswordConfirmationVisibility
-                                    }
-                                    className="absolute right-[4%] top-[28%] cursor-pointer"
-                                />
-                            )}
-                            {passwordConfirmationIsVisible && (
-                                <AiOutlineEyeInvisible
-                                    onClick={
-                                        handelPasswordConfirmationVisibility
-                                    }
-                                    className="absolute right-[4%] top-[28%] cursor-pointer"
-                                />
-                            )}
+                            <PasswordConfIcon
+                                onClick={togglePasswordConfVisibility}
+                                className="absolute right-[4%] top-[28%] cursor-pointer"
+                            />
                         </div>
                     </div>
                     <button className="mx-auto w-1/3 rounded-lg bg-emerald-500 py-3 font-bold text-white shadow-md duration-150 hover:bg-emerald-600">

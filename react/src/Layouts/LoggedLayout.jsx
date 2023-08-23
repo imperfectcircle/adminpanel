@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, Navigate, Outlet } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { HiUserCircle, HiChartPie, HiUser } from 'react-icons/hi';
-import { AiOutlineUnorderedList, AiOutlinePlus } from 'react-icons/ai';
-import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 import { ImSwitch } from 'react-icons/im';
 import { BsFillInboxFill } from 'react-icons/bs';
 import { AnimatePresence, motion } from 'framer-motion';
 import axiosClient from '../axios-client';
+import Dropdown from '../Components/Dropdown';
+import { useMenuVisibility } from '../Hooks/useMenuVisibility';
+import { useLogoutPopup } from '../Hooks/useLogoutPopup';
 
 export default function LoggedLayout() {
     useEffect(() => {
@@ -17,9 +18,8 @@ export default function LoggedLayout() {
         });
     }, []);
 
-    const [userIsVisible, setUserIsVisible] = useState(false);
-    const [menuIsVisible, setMenuIsVisible] = useState(false);
-    const [orderIsVisible, setOrderIsVisible] = useState(false);
+    const [resetVisibility] = useMenuVisibility();
+    const [popupIsVisible, togglePopupVisibility] = useLogoutPopup();
     const { user, token, notification, setUser, setToken } = useStateContext();
 
     if (!token) {
@@ -35,18 +35,6 @@ export default function LoggedLayout() {
         });
     };
 
-    const handleUserVisibility = () => {
-        setUserIsVisible(!userIsVisible);
-    };
-
-    const handleMenuVisibility = () => {
-        setMenuIsVisible(!menuIsVisible);
-    };
-
-    const handleOrderVisibility = () => {
-        setOrderIsVisible(!orderIsVisible);
-    };
-
     return (
         <section className="min-h-screen">
             <header className="fixed z-10 flex min-h-[60px] w-full items-center justify-between bg-sky-400 p-5 shadow-lg">
@@ -55,11 +43,11 @@ export default function LoggedLayout() {
                 </p>
                 <div className="relative">
                     <HiUserCircle
-                        onClick={handleMenuVisibility}
+                        onClick={togglePopupVisibility}
                         className="h-10 w-10 text-white"
                     />
                     <AnimatePresence>
-                        {menuIsVisible && (
+                        {popupIsVisible && (
                             <motion.div
                                 className="absolute -right-0 top-10 w-[200px] rounded-lg bg-gray-200 p-5 shadow-lg"
                                 initial={{ opacity: 0 }}
@@ -89,107 +77,30 @@ export default function LoggedLayout() {
                     <div className="sticky top-10 space-y-3">
                         <Link
                             className="flex items-center pl-10"
-                            onClick={() => {
-                                setUserIsVisible(false);
-                                setOrderIsVisible(false);
-                            }}
+                            onClick={resetVisibility}
                             to="/dashboard"
                         >
                             <HiChartPie className="mr-3" />
                             Dashboard
                         </Link>
 
-                        <div className="">
-                            <div className="flex items-center space-x-3 pl-10">
-                                <HiUser />
-                                <p
-                                    className="cursor-pointer"
-                                    onClick={handleUserVisibility}
-                                >
-                                    <span className="flex items-center">
-                                        Utenti
-                                        {userIsVisible && (
-                                            <RiArrowUpSLine className="ml-3" />
-                                        )}
-                                        {!userIsVisible && (
-                                            <RiArrowDownSLine className="ml-3" />
-                                        )}
-                                    </span>
-                                </p>
-                            </div>
-                            <AnimatePresence>
-                                {userIsVisible && (
-                                    <motion.div
-                                        className="flex w-full flex-col bg-gray-100 p-3 pl-12"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.6 }}
-                                    >
-                                        <Link
-                                            className="flex items-center text-lg text-black transition-all duration-150 hover:text-red-500"
-                                            to="/users"
-                                        >
-                                            <AiOutlineUnorderedList className="mr-3" />
-                                            Lista Utenti
-                                        </Link>
-                                        <Link
-                                            className="flex items-center text-lg text-black transition-all duration-150 hover:text-red-500"
-                                            to="/users/new"
-                                        >
-                                            <AiOutlinePlus className="mr-3" />
-                                            Crea Nuovo Utente
-                                        </Link>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                        <Dropdown
+                            icon={HiUser}
+                            menuName="Utenti"
+                            linkList="/users"
+                            listName="Lista Utenti"
+                            linkNew="/users/new"
+                            newName="Crea Nuovo Utente"
+                        />
 
-                        <div className="">
-                            <div className="flex items-center space-x-3 pl-10">
-                                <BsFillInboxFill />
-                                <p
-                                    className="cursor-pointer"
-                                    onClick={handleOrderVisibility}
-                                >
-                                    <span className="flex items-center">
-                                        Ordini
-                                        {orderIsVisible && (
-                                            <RiArrowUpSLine className="ml-3" />
-                                        )}
-                                        {!orderIsVisible && (
-                                            <RiArrowDownSLine className="ml-3" />
-                                        )}
-                                    </span>
-                                </p>
-                            </div>
-                            <AnimatePresence>
-                                {orderIsVisible && (
-                                    <motion.div
-                                        className="flex w-full flex-col bg-gray-100 p-3 pl-12"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.6 }}
-                                    >
-                                        <Link
-                                            className="flex items-center text-lg text-black transition-all duration-150 hover:text-red-500"
-                                            to="#"
-                                        >
-                                            <AiOutlineUnorderedList className="mr-3" />
-                                            Lista Ordini
-                                        </Link>
-                                        <Link
-                                            className="flex items-center text-lg text-black transition-all duration-150 hover:text-red-500"
-                                            to="#"
-                                        >
-                                            <AiOutlinePlus className="mr-3" />
-                                            Crea Nuovo Ordine
-                                        </Link>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                        <Dropdown
+                            icon={BsFillInboxFill}
+                            menuName="Ordini"
+                            linkList="#"
+                            listName="Lista Ordini"
+                            linkNew="#"
+                            newName="Crea Nuovo Ordine"
+                        />
                     </div>
                 </aside>
                 <main className="col-span-2 p-10 md:col-span-4">
