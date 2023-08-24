@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import axiosClient from '../axios-client';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { usePasswordVisibility } from '../Hooks/usePasswordVisibility';
-import PasswordInput from '../Components/PasswordInput';
 import EyeIcon from '../Components/EyeIcon';
 
 export default function Login() {
