@@ -1,16 +1,19 @@
-import { useState } from 'react';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useMemo, useState } from 'react';
 
-export const usePasswordVisibility = () => {
-    const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+export const usePasswordVisibility = (initialState = false) => {
+    const [passwordIsVisible, setPasswordIsVisible] = useState(initialState);
 
     const togglePasswordVisibility = () => {
-        setPasswordIsVisible(!passwordIsVisible);
+        setPasswordIsVisible((prevState) => !prevState);
     };
 
-    const PasswordIcon = passwordIsVisible
-        ? AiOutlineEyeInvisible
-        : AiOutlineEye;
+    const memoizedState = useMemo(() => {
+        return [passwordIsVisible, togglePasswordVisibility];
+    }, [passwordIsVisible]);
 
-    return [passwordIsVisible, togglePasswordVisibility, PasswordIcon];
+    // const PasswordIcon = passwordIsVisible
+    //     ? AiOutlineEyeInvisible
+    //     : AiOutlineEye;
+
+    return memoizedState;
 };

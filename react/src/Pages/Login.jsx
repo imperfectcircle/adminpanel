@@ -2,13 +2,15 @@ import { useRef, useState } from 'react';
 import axiosClient from '../axios-client';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { usePasswordVisibility } from '../Hooks/usePasswordVisibility';
+import PasswordInput from '../Components/PasswordInput';
+import EyeIcon from '../Components/EyeIcon';
 
 export default function Login() {
     const nameRef = useRef();
     const passwordRef = useRef();
 
     const [errors, setErrors] = useState(null);
-    const [passwordIsVisible, togglePasswordVisibility, PasswordIcon] =
+    const [passwordIsVisible, togglePasswordVisibility] =
         usePasswordVisibility();
 
     const { setUser, setToken } = useStateContext();
@@ -67,6 +69,7 @@ export default function Login() {
                     autoComplete="username"
                     placeholder="Nome Utente"
                 />
+
                 <div className="relative flex">
                     <input
                         ref={passwordRef}
@@ -77,9 +80,9 @@ export default function Login() {
                         autoComplete="current-password"
                         placeholder="Password"
                     />
-                    <PasswordIcon
-                        onClick={togglePasswordVisibility}
-                        className="absolute right-[4%] top-[28%] cursor-pointer"
+                    <EyeIcon
+                        passwordIsVisible={passwordIsVisible}
+                        togglePasswordVisibility={togglePasswordVisibility}
                     />
                 </div>
                 <button className="mx-auto w-1/3 rounded-lg bg-sky-300 py-3 font-bold text-white shadow-md duration-150 hover:bg-sky-400">
