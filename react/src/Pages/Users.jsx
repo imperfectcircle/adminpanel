@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axiosClient from '../axios-client';
 import { Link } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { Helmet } from 'react-helmet-async';
+import { useGetData } from '../Hooks/useGetData';
 
 export default function Users() {
     const [users, setUsers] = useState([]);
@@ -10,22 +11,24 @@ export default function Users() {
     const [inputText, setInputText] = useState('');
     const { setNotification } = useStateContext();
 
-    useEffect(() => {
-        getUsers();
-    }, []);
+    const getData = useGetData('/users', setLoading, setUsers);
 
-    const getUsers = () => {
-        setLoading(true);
-        axiosClient
-            .get('/users')
-            .then(({ data }) => {
-                setLoading(false);
-                setUsers(data.data);
-            })
-            .catch(() => {
-                setLoading(false);
-            });
-    };
+    // useEffect(() => {
+    //     getUsers();
+    // }, []);
+
+    // const getUsers = () => {
+    //     setLoading(true);
+    //     axiosClient
+    //         .get('/users')
+    //         .then(({ data }) => {
+    //             setLoading(false);
+    //             setUsers(data.data);
+    //         })
+    //         .catch(() => {
+    //             setLoading(false);
+    //         });
+    // };
 
     const onDelete = (user) => {
         if (!window.confirm(`Stai per eliminare l'utente ${user.name}`)) {
@@ -36,7 +39,7 @@ export default function Users() {
             setNotification(
                 `L'utente ${user.name} è stato eliminato correttamente.`,
             );
-            getUsers();
+            getData();
         });
     };
 
@@ -95,22 +98,46 @@ export default function Users() {
                                 {filteredData.map((el) => (
                                     <tr className="text-center" key={el.id}>
                                         <td>{el.id}</td>
-                                        <td>{el.name}</td>
+                                        <td className="first-letter:uppercase">
+                                            {el.name}
+                                        </td>
                                         <td>{el.email}</td>
                                         <td>{el.created_at}</td>
                                         <td className="space-x-3 px-6 py-3">
-                                            <Link
-                                                className="rounded-lg bg-emerald-500 px-6 py-3 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
-                                                to={'/users/' + el.id}
-                                            >
-                                                Modifica
-                                            </Link>
-                                            <button
-                                                className="rounded-lg bg-red-500 px-6 py-3 text-white shadow-lg transition-all duration-150 hover:bg-red-600"
-                                                onClick={() => onDelete(el)}
-                                            >
-                                                Elimina
-                                            </button>
+                                            {!(el.name === 'demo') && (
+                                                <>
+                                                    <Link
+                                                        className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
+                                                        to={'/users/' + el.id}
+                                                    >
+                                                        Modifica
+                                                    </Link>
+                                                    <button
+                                                        className="rounded-lg bg-red-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-red-600"
+                                                        onClick={() =>
+                                                            onDelete(el)
+                                                        }
+                                                    >
+                                                        Elimina
+                                                    </button>
+                                                </>
+                                            )}
+                                            {el.name === 'demo' && (
+                                                <>
+                                                    <Link
+                                                        className="cursor-not-allowed rounded-lg bg-gray-300 px-5 py-2 text-black shadow-lg"
+                                                        to="#"
+                                                    >
+                                                        Modifica
+                                                    </Link>
+                                                    <button
+                                                        disabled
+                                                        className="cursor-not-allowed rounded-lg bg-gray-300 px-5 py-2 text-black shadow-lg"
+                                                    >
+                                                        Elimina
+                                                    </button>
+                                                </>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
@@ -148,18 +175,41 @@ export default function Users() {
                                         <td>{user.email}</td>
                                         <td>{user.created_at}</td>
                                         <td className="space-x-3 px-6 py-3">
-                                            <Link
-                                                className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
-                                                to={'/users/' + user.id}
-                                            >
-                                                Modifica
-                                            </Link>
-                                            <button
-                                                className="rounded-lg bg-red-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-red-600"
-                                                onClick={() => onDelete(user)}
-                                            >
-                                                Elimina
-                                            </button>
+                                            {!(user.name === 'demo') && (
+                                                <>
+                                                    <Link
+                                                        className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
+                                                        to={'/users/' + user.id}
+                                                    >
+                                                        Modifica
+                                                    </Link>
+                                                    <button
+                                                        className="rounded-lg bg-red-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-red-600"
+                                                        onClick={() =>
+                                                            onDelete(user)
+                                                        }
+                                                    >
+                                                        Elimina
+                                                    </button>
+                                                </>
+                                            )}
+                                            {user.name === 'demo' && (
+                                                <>
+                                                    <Link
+                                                        className="cursor-not-allowed rounded-lg bg-gray-300 px-5 py-2 text-black shadow-lg"
+                                                        to="#"
+                                                    >
+                                                        Modifica
+                                                    </Link>
+
+                                                    <button
+                                                        disabled
+                                                        className="cursor-not-allowed rounded-lg bg-gray-300 px-5 py-2 text-black shadow-lg "
+                                                    >
+                                                        Elimina
+                                                    </button>
+                                                </>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}

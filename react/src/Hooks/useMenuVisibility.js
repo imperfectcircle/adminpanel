@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 
-export const useMenuVisibility = (initialState = false) => {
-    const [menuIsVisible, setMenuIsVisible] = useState(initialState);
+export const useMenuVisibility = () => {
+    const [menuIsVisible, setMenuIsVisible] = useState(false);
 
     const toggleMenuVisibility = () => {
-        setMenuIsVisible((prevState) => !prevState);
+        setMenuIsVisible(!menuIsVisible);
     };
 
     const resetVisibility = () => {

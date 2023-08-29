@@ -7,6 +7,8 @@ import Users from './Pages/Users';
 import NotFound from './Pages/NotFound';
 import Dashboard from './Pages/Dashboard';
 import UserForm from './Pages/UserForm';
+import Orders from './Pages/Orders';
+import OrderForm from './Pages/OrderForm';
 
 const router = createBrowserRouter([
     {
@@ -30,8 +32,24 @@ const router = createBrowserRouter([
                 element: <UserForm key="userCreate" />,
             },
             {
+                path: '/users/1',
+                element: <Navigate to="/users" />,
+            },
+            {
                 path: '/users/:id',
                 element: <UserForm key="userUpdate" />,
+            },
+            {
+                path: '/orders',
+                element: <Orders />,
+            },
+            {
+                path: '/orders/new',
+                element: <OrderForm key="orderCreate" />,
+            },
+            {
+                path: '/orders/:id',
+                element: <OrderForm key="orderUpdate" />,
             },
         ],
     },

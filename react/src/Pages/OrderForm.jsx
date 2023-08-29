@@ -1,38 +1,31 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-hooks/rules-of-hooks */
-
-//TODO check visivi password
-
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axiosClient from '../axios-client';
 import { useStateContext } from '../Contexts/ContextProvider';
+import { useEffect, useState } from 'react';
+import axiosClient from '../axios-client';
 import { Helmet } from 'react-helmet-async';
 
-import PasswordInput from '../Components/PasswordInput';
-
-export default function UserForm() {
+export default function OrderForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState(null);
     const { setNotification } = useStateContext();
-    const [user, setUser] = useState({
+    const [order, setOrder] = useState({
         id: null,
-        name: '',
+        customer: '',
         email: '',
-        password: '',
-        password_confirmation: '',
+        amount: '',
+        state: '',
     });
 
     useEffect(() => {
         if (id) {
             setLoading(true);
             axiosClient
-                .get(`/users/${id}`)
+                .get(`/orders/${id}`)
                 .then(({ data }) => {
                     setLoading(false);
-                    setUser(data);
+                    setOrder(data);
                 })
                 .catch(() => {
                     setLoading(false);
@@ -42,14 +35,14 @@ export default function UserForm() {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        if (user.id) {
+        if (order.id) {
             axiosClient
-                .put(`/users/${user.id}`, user)
+                .put(`/orders/${order.id}`, order)
                 .then(() => {
                     setNotification(
-                        `L'utente ${user.name} è stato modificato correttamente.`,
+                        `L'ordine numero ${order.id} è stato modificato correttamente.`,
                     );
-                    navigate('/users');
+                    navigate('/orders');
                 })
                 .catch((error) => {
                     const response = error.response;
@@ -59,10 +52,12 @@ export default function UserForm() {
                 });
         } else {
             axiosClient
-                .post(`/users/`, user)
+                .post(`/orders/`, order)
                 .then(() => {
-                    setNotification(`L'utente ${user.name} è stato creato.`);
-                    navigate('/users');
+                    setNotification(
+                        `L'ordine numero ${order.id} è stato creato.`,
+                    );
+                    navigate('/orders');
                 })
                 .catch((error) => {
                     const response = error.response;
@@ -75,27 +70,26 @@ export default function UserForm() {
 
     return (
         <>
-            {user.id && (
+            {order.id && (
                 <>
                     <Helmet>
-                        <title>Pannello di gestione | Modifica Utente</title>
+                        <title>Pannello di gestione | Modifica Ordine</title>
                     </Helmet>
                     <h1 className="text-center text-4xl font-bold">
-                        Stai modificando l&apos;utente: {user.name}
+                        Stai modificando l&apos;ordine numero: {order.id}
                     </h1>
                 </>
             )}
-            {!user.id && (
+            {!order.id && (
                 <>
                     <Helmet>
-                        <title>Pannello di gestione | Crea Utente</title>
+                        <title>Pannello di gestione | Crea Ordine</title>
                     </Helmet>
                     <h1 className="text-center text-4xl font-bold">
-                        Nuovo utente
+                        Nuovo Ordine
                     </h1>
                 </>
             )}
-
             {errors && (
                 <div className="my-3 rounded-lg bg-red-500 p-5 text-white">
                     {Object.keys(errors).map((key) => (
@@ -115,27 +109,30 @@ export default function UserForm() {
                     action=""
                 >
                     <div className="flex flex-col space-y-2">
-                        <label htmlFor="username">Nome Utente</label>
+                        <label htmlFor="customer">Cliente</label>
 
                         <input
-                            value={user.name}
+                            value={order.customer}
                             onChange={(ev) =>
-                                setUser({ ...user, name: ev.target.value })
+                                setOrder({
+                                    ...order,
+                                    customer: ev.target.value,
+                                })
                             }
                             className="rounded-md shadow-lg focus:bg-emerald-100"
                             type="text"
-                            name="username"
-                            id="username"
-                            autoComplete="username"
-                            placeholder="Nome Utente"
+                            name="customer"
+                            id="customer"
+                            autoComplete="customer"
+                            placeholder="Cliente"
                         />
                     </div>
                     <div className="flex flex-col space-y-2">
                         <label htmlFor="email">Indirizzo Email</label>
                         <input
-                            value={user.email}
+                            value={order.email}
                             onChange={(ev) =>
-                                setUser({ ...user, email: ev.target.value })
+                                setOrder({ ...order, email: ev.target.value })
                             }
                             className="rounded-md shadow-lg focus:bg-emerald-100"
                             type="email"
@@ -146,35 +143,44 @@ export default function UserForm() {
                         />
                     </div>
                     <div className="flex flex-col space-y-2">
-                        <label htmlFor="password">Password</label>
-                        <PasswordInput
-                            handleChange={(ev) =>
-                                setUser({
-                                    ...user,
-                                    password: ev.target.value,
-                                })
+                        <label htmlFor="amount">Totale</label>
+                        <input
+                            value={order.amount}
+                            onChange={(ev) =>
+                                setOrder({ ...order, amount: +ev.target.value })
                             }
-                            autoComplete="new-password"
-                            placeholder="Password"
+                            className="rounded-md shadow-lg focus:bg-emerald-100"
+                            type="number"
+                            name="amount"
+                            id="amount"
+                            autoComplete="amount"
+                            placeholder="Totale Ordine"
                         />
                     </div>
-                    <div className="flex flex-col space-y-2">
-                        <label htmlFor="password_confirmation">
-                            Conferma Password
-                        </label>
-                        <PasswordInput
-                            handleChange={(ev) =>
-                                setUser({
-                                    ...user,
-                                    password_confirmation: ev.target.value,
-                                })
+                    <div className="flex items-center space-x-2">
+                        <input
+                            type="radio"
+                            name="state"
+                            id="pagato"
+                            value="pagato"
+                            onChange={(ev) =>
+                                setOrder({ ...order, state: ev.target.value })
                             }
-                            autoComplete="new-password"
-                            placeholder="Conferma Password"
                         />
+                        <label htmlFor="pagato">Pagato</label>
+                        <input
+                            type="radio"
+                            name="state"
+                            id="non pagato"
+                            value="non pagato"
+                            onChange={(ev) =>
+                                setOrder({ ...order, state: ev.target.value })
+                            }
+                        />
+                        <label htmlFor="non pagato">Non Pagato</label>
                     </div>
                     <button className="mx-auto w-1/3 rounded-lg bg-emerald-500 py-3 font-bold text-white shadow-md duration-150 hover:bg-emerald-600">
-                        {id ? 'Modifica Utente' : 'Crea Utente'}
+                        {id ? 'Modifica Ordine' : 'Crea Ordine'}
                     </button>
                 </form>
             )}

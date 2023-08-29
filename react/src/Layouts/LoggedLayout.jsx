@@ -8,7 +8,6 @@ import { BsFillInboxFill } from 'react-icons/bs';
 import { AnimatePresence, motion } from 'framer-motion';
 import axiosClient from '../axios-client';
 import Dropdown from '../Components/Dropdown';
-import { useMenuVisibility } from '../Hooks/useMenuVisibility';
 import { useLogoutPopup } from '../Hooks/useLogoutPopup';
 
 export default function LoggedLayout() {
@@ -18,7 +17,6 @@ export default function LoggedLayout() {
         });
     }, []);
 
-    const [resetVisibility] = useMenuVisibility();
     const [popupIsVisible, togglePopupVisibility] = useLogoutPopup();
     const { user, token, notification, setUser, setToken } = useStateContext();
 
@@ -77,7 +75,6 @@ export default function LoggedLayout() {
                     <div className="sticky top-10 space-y-3">
                         <Link
                             className="flex items-center pl-10"
-                            onClick={resetVisibility}
                             to="/dashboard"
                         >
                             <HiChartPie className="mr-3" />
@@ -96,9 +93,9 @@ export default function LoggedLayout() {
                         <Dropdown
                             icon={BsFillInboxFill}
                             menuName="Ordini"
-                            linkList="#"
+                            linkList="/orders"
                             listName="Lista Ordini"
-                            linkNew="#"
+                            linkNew="/orders/new"
                             newName="Crea Nuovo Ordine"
                         />
                     </div>
