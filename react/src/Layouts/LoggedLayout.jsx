@@ -4,7 +4,7 @@ import { Link, Navigate, Outlet } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { HiUserCircle, HiChartPie, HiUser } from 'react-icons/hi';
 import { ImSwitch } from 'react-icons/im';
-import { BsFillInboxFill } from 'react-icons/bs';
+import { BsFillInboxFill, BsBook, BsPenFill } from 'react-icons/bs';
 import { AnimatePresence, motion } from 'framer-motion';
 import axiosClient from '../axios-client';
 import Dropdown from '../Components/Dropdown';
@@ -97,6 +97,24 @@ export default function LoggedLayout() {
                             listName="Lista Ordini"
                             linkNew="/orders/new"
                             newName="Crea Nuovo Ordine"
+                        />
+
+                        <Dropdown
+                            icon={BsBook}
+                            menuName="Fumetti"
+                            linkList="/comics"
+                            listName="Lista Fumetti"
+                            linkNew="/comics/new"
+                            newName="Aggiungi Fumetto"
+                        />
+
+                        <Dropdown
+                            icon={BsPenFill}
+                            menuName="Autori"
+                            linkList="/authors"
+                            listName="Lista Autori"
+                            linkNew="/authors/new"
+                            newName="Aggiungi Autore"
                         />
                     </div>
                 </aside>

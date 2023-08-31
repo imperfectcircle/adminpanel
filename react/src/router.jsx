@@ -9,6 +9,10 @@ import Dashboard from './Pages/Dashboard';
 import UserForm from './Pages/UserForm';
 import Orders from './Pages/Orders';
 import OrderForm from './Pages/OrderForm';
+import Comics from './Pages/Comics';
+import ComicsForm from './Pages/ComicsForm';
+import Authors from './Pages/Authors';
+import AuthorsForm from './Pages/AuthorsForm';
 
 const router = createBrowserRouter([
     {
@@ -50,6 +54,30 @@ const router = createBrowserRouter([
             {
                 path: '/orders/:id',
                 element: <OrderForm key="orderUpdate" />,
+            },
+            {
+                path: '/comics',
+                element: <Comics />,
+            },
+            {
+                path: '/comics/new',
+                element: <ComicsForm key="comicCreate" />,
+            },
+            {
+                path: '/comics/:id',
+                element: <ComicsForm key="comicUpdate" />,
+            },
+            {
+                path: '/authors',
+                element: <Authors />,
+            },
+            {
+                path: '/authors/new',
+                element: <AuthorsForm key="authorCreate" />,
+            },
+            {
+                path: '/authors/:id',
+                element: <AuthorsForm key="authorUpdate" />,
             },
         ],
     },

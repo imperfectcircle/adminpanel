@@ -66,6 +66,21 @@ export default function Orders() {
                     />
                 </div>
 
+                <div className="flex w-full items-center justify-end space-x-5">
+                    <div className="flex">
+                        <div
+                            className={'rounded-full bg-sky-400 px-2 py-2'}
+                        ></div>
+                        <p>&nbsp;Pagato</p>
+                    </div>
+                    <div className="flex">
+                        <div
+                            className={'rounded-full bg-yellow-300 px-2 py-2'}
+                        ></div>
+                        <p>&nbsp;Non Pagato</p>
+                    </div>
+                </div>
+
                 <div className="mt-5 rounded-lg bg-white p-5 shadow-lg">
                     <table className="w-full border-separate border-spacing-4">
                         <thead className="bg-gray-200">
@@ -97,7 +112,15 @@ export default function Orders() {
                                             </a>
                                         </td>
                                         <td>{el.amount}</td>
-                                        <td>{el.state}</td>
+                                        <td>
+                                            <div
+                                                className={
+                                                    el.state === 'pagato'
+                                                        ? 'rounded-full bg-sky-400 px-2 py-2'
+                                                        : 'rounded-full bg-yellow-300 px-2 py-2'
+                                                }
+                                            ></div>
+                                        </td>
                                         <td className="space-x-3 px-6 py-3">
                                             <Link
                                                 className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
@@ -143,7 +166,14 @@ export default function Orders() {
                                     <tr className="text-center" key={order.id}>
                                         <td>{order.created_at}</td>
                                         <td>{order.id}</td>
-                                        <td>{order.customer}</td>
+                                        <td>
+                                            {order.customer.length > 16
+                                                ? `${order.customer.slice(
+                                                      0,
+                                                      16,
+                                                  )}...`
+                                                : order.customer}
+                                        </td>
                                         <td>
                                             <a
                                                 className="text-sky-600 underline"
@@ -153,16 +183,14 @@ export default function Orders() {
                                             </a>
                                         </td>
                                         <td>{order.amount}</td>
-                                        <td className="px-2">
-                                            <p
+                                        <td>
+                                            <div
                                                 className={
                                                     order.state === 'pagato'
-                                                        ? 'bg-sky-400 px-2 py-1 text-white'
-                                                        : 'bg-yellow-300 px-2 py-1'
+                                                        ? 'rounded-full bg-sky-400 px-2 py-2'
+                                                        : 'rounded-full bg-yellow-300 px-2 py-2'
                                                 }
-                                            >
-                                                {order.state}
-                                            </p>
+                                            ></div>
                                         </td>
                                         <td className="space-x-3 px-6 py-3">
                                             <Link

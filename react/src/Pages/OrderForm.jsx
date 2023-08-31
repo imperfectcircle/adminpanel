@@ -3,6 +3,8 @@ import { useStateContext } from '../Contexts/ContextProvider';
 import { useEffect, useState } from 'react';
 import axiosClient from '../axios-client';
 import { Helmet } from 'react-helmet-async';
+import InputField from '../Components/InputField';
+import { onSubmit } from '../Utilities/onSubmit';
 
 export default function OrderForm() {
     const { id } = useParams();
@@ -17,6 +19,10 @@ export default function OrderForm() {
         amount: '',
         state: '',
     });
+
+    const uri = '/orders/';
+    const updateText = `L'ordine numero ${order.id} è stato modificato correttamente.`;
+    const createText = `L'ordine numero ${order.id} è stato creato.`;
 
     useEffect(() => {
         if (id) {
@@ -33,40 +39,50 @@ export default function OrderForm() {
         }
     }, []);
 
-    const onSubmit = (event) => {
-        event.preventDefault();
-        if (order.id) {
-            axiosClient
-                .put(`/orders/${order.id}`, order)
-                .then(() => {
-                    setNotification(
-                        `L'ordine numero ${order.id} è stato modificato correttamente.`,
-                    );
-                    navigate('/orders');
-                })
-                .catch((error) => {
-                    const response = error.response;
-                    if (response && response.status === 422) {
-                        setErrors(response.data.errors);
-                    }
-                });
-        } else {
-            axiosClient
-                .post(`/orders/`, order)
-                .then(() => {
-                    setNotification(
-                        `L'ordine numero ${order.id} è stato creato.`,
-                    );
-                    navigate('/orders');
-                })
-                .catch((error) => {
-                    const response = error.response;
-                    if (response && response.status === 422) {
-                        setErrors(response.data.errors);
-                    }
-                });
-        }
-    };
+    const handleSubmit = onSubmit(
+        order,
+        setNotification,
+        navigate,
+        setErrors,
+        uri,
+        updateText,
+        createText,
+    );
+
+    // const onSubmit = (event) => {
+    //     event.preventDefault();
+    //     if (order.id) {
+    //         axiosClient
+    //             .put(`/orders/${order.id}`, order)
+    //             .then(() => {
+    //                 setNotification(
+    //                     `L'ordine numero ${order.id} è stato modificato correttamente.`,
+    //                 );
+    //                 navigate('/orders');
+    //             })
+    //             .catch((error) => {
+    //                 const response = error.response;
+    //                 if (response && response.status === 422) {
+    //                     setErrors(response.data.errors);
+    //                 }
+    //             });
+    //     } else {
+    //         axiosClient
+    //             .post(`/orders/`, order)
+    //             .then(() => {
+    //                 setNotification(
+    //                     `L'ordine numero ${order.id} è stato creato.`,
+    //                 );
+    //                 navigate('/orders');
+    //             })
+    //             .catch((error) => {
+    //                 const response = error.response;
+    //                 if (response && response.status === 422) {
+    //                     setErrors(response.data.errors);
+    //                 }
+    //             });
+    //     }
+    // };
 
     return (
         <>
@@ -105,58 +121,48 @@ export default function OrderForm() {
             {!loading && (
                 <form
                     className="mt-5 flex flex-col space-y-5 rounded-lg bg-white p-10 shadow-lg"
-                    onSubmit={onSubmit}
+                    onSubmit={handleSubmit}
                     action=""
                 >
-                    <div className="flex flex-col space-y-2">
-                        <label htmlFor="customer">Cliente</label>
-
-                        <input
-                            value={order.customer}
-                            onChange={(ev) =>
-                                setOrder({
-                                    ...order,
-                                    customer: ev.target.value,
-                                })
-                            }
-                            className="rounded-md shadow-lg focus:bg-emerald-100"
-                            type="text"
-                            name="customer"
-                            id="customer"
-                            autoComplete="customer"
-                            placeholder="Cliente"
-                        />
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                        <label htmlFor="email">Indirizzo Email</label>
-                        <input
-                            value={order.email}
-                            onChange={(ev) =>
-                                setOrder({ ...order, email: ev.target.value })
-                            }
-                            className="rounded-md shadow-lg focus:bg-emerald-100"
-                            type="email"
-                            name="email"
-                            id="email"
-                            autoComplete="email"
-                            placeholder="Indirizzo Email"
-                        />
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                        <label htmlFor="amount">Totale</label>
-                        <input
-                            value={order.amount}
-                            onChange={(ev) =>
-                                setOrder({ ...order, amount: +ev.target.value })
-                            }
-                            className="rounded-md shadow-lg focus:bg-emerald-100"
-                            type="number"
-                            name="amount"
-                            id="amount"
-                            autoComplete="amount"
-                            placeholder="Totale Ordine"
-                        />
-                    </div>
+                    <InputField
+                        content="Cliente"
+                        value={order.customer}
+                        onChange={(ev) =>
+                            setOrder({
+                                ...order,
+                                customer: ev.target.value,
+                            })
+                        }
+                        type="text"
+                        field="customer"
+                        autoComplete="given-name"
+                    />
+                    <InputField
+                        content="Indirizzo Email"
+                        value={order.email}
+                        onChange={(ev) =>
+                            setOrder({
+                                ...order,
+                                email: ev.target.value,
+                            })
+                        }
+                        type="email"
+                        field="email"
+                        autoComplete="email"
+                    />
+                    <InputField
+                        content="Totale"
+                        value={order.amount}
+                        onChange={(ev) =>
+                            setOrder({
+                                ...order,
+                                amount: +ev.target.value,
+                            })
+                        }
+                        type="number"
+                        field="amount"
+                        autoComplete="off"
+                    />
                     <div className="flex items-center space-x-2">
                         <input
                             type="radio"

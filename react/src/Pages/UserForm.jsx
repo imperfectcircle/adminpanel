@@ -10,6 +10,8 @@ import { useStateContext } from '../Contexts/ContextProvider';
 import { Helmet } from 'react-helmet-async';
 
 import PasswordInput from '../Components/PasswordInput';
+import InputField from '../Components/InputField';
+import { onSubmit } from '../Utilities/onSubmit';
 
 export default function UserForm() {
     const { id } = useParams();
@@ -24,6 +26,10 @@ export default function UserForm() {
         password: '',
         password_confirmation: '',
     });
+
+    const updateText = `L'utente ${user.name} è stato modificato correttamente.`;
+    const createText = `L'utente ${user.name} è stato creato.`;
+    const uri = '/users/';
 
     useEffect(() => {
         if (id) {
@@ -40,38 +46,48 @@ export default function UserForm() {
         }
     }, []);
 
-    const onSubmit = (event) => {
-        event.preventDefault();
-        if (user.id) {
-            axiosClient
-                .put(`/users/${user.id}`, user)
-                .then(() => {
-                    setNotification(
-                        `L'utente ${user.name} è stato modificato correttamente.`,
-                    );
-                    navigate('/users');
-                })
-                .catch((error) => {
-                    const response = error.response;
-                    if (response && response.status === 422) {
-                        setErrors(response.data.errors);
-                    }
-                });
-        } else {
-            axiosClient
-                .post(`/users/`, user)
-                .then(() => {
-                    setNotification(`L'utente ${user.name} è stato creato.`);
-                    navigate('/users');
-                })
-                .catch((error) => {
-                    const response = error.response;
-                    if (response && response.status === 422) {
-                        setErrors(response.data.errors);
-                    }
-                });
-        }
-    };
+    const handleSubmit = onSubmit(
+        user,
+        setNotification,
+        navigate,
+        setErrors,
+        uri,
+        updateText,
+        createText,
+    );
+
+    // const onSubmit = (event) => {
+    //     event.preventDefault();
+    //     if (user.id) {
+    //         axiosClient
+    //             .put(`/users/${user.id}`, user)
+    //             .then(() => {
+    //                 setNotification(
+    //                     `L'utente ${user.name} è stato modificato correttamente.`,
+    //                 );
+    //                 navigate('/users');
+    //             })
+    //             .catch((error) => {
+    //                 const response = error.response;
+    //                 if (response && response.status === 422) {
+    //                     setErrors(response.data.errors);
+    //                 }
+    //             });
+    //     } else {
+    //         axiosClient
+    //             .post(`/users/`, user)
+    //             .then(() => {
+    //                 setNotification(`L'utente ${user.name} è stato creato.`);
+    //                 navigate('/users');
+    //             })
+    //             .catch((error) => {
+    //                 const response = error.response;
+    //                 if (response && response.status === 422) {
+    //                     setErrors(response.data.errors);
+    //                 }
+    //             });
+    //     }
+    // };
 
     return (
         <>
@@ -111,40 +127,35 @@ export default function UserForm() {
             {!loading && (
                 <form
                     className="mt-5 flex flex-col space-y-5 rounded-lg bg-white p-10 shadow-lg"
-                    onSubmit={onSubmit}
+                    onSubmit={handleSubmit}
                     action=""
                 >
-                    <div className="flex flex-col space-y-2">
-                        <label htmlFor="username">Nome Utente</label>
-
-                        <input
-                            value={user.name}
-                            onChange={(ev) =>
-                                setUser({ ...user, name: ev.target.value })
-                            }
-                            className="rounded-md shadow-lg focus:bg-emerald-100"
-                            type="text"
-                            name="username"
-                            id="username"
-                            autoComplete="username"
-                            placeholder="Nome Utente"
-                        />
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                        <label htmlFor="email">Indirizzo Email</label>
-                        <input
-                            value={user.email}
-                            onChange={(ev) =>
-                                setUser({ ...user, email: ev.target.value })
-                            }
-                            className="rounded-md shadow-lg focus:bg-emerald-100"
-                            type="email"
-                            name="email"
-                            id="email"
-                            autoComplete="email"
-                            placeholder="Indirizzo Email"
-                        />
-                    </div>
+                    <InputField
+                        content="Nome Utente"
+                        value={user.name}
+                        onChange={(ev) =>
+                            setUser({
+                                ...user,
+                                name: ev.target.value,
+                            })
+                        }
+                        type="text"
+                        field="username"
+                        autoComplete="username"
+                    />
+                    <InputField
+                        content="Indirizzo Email"
+                        value={user.email}
+                        onChange={(ev) =>
+                            setUser({
+                                ...user,
+                                email: ev.target.value,
+                            })
+                        }
+                        type="email"
+                        field="email"
+                        autoComplete="email"
+                    />
                     <div className="flex flex-col space-y-2">
                         <label htmlFor="password">Password</label>
                         <PasswordInput
