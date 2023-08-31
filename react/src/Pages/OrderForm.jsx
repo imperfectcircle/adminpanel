@@ -14,7 +14,9 @@ export default function OrderForm() {
     const { setNotification } = useStateContext();
     const [order, setOrder] = useState({
         id: null,
-        customer: '',
+        first_name: '',
+        last_name: '',
+        order_items: '',
         email: '',
         amount: '',
         state: '',
@@ -125,18 +127,51 @@ export default function OrderForm() {
                     action=""
                 >
                     <InputField
-                        content="Cliente"
-                        value={order.customer}
+                        content="Nome"
+                        value={order.first_name}
                         onChange={(ev) =>
                             setOrder({
                                 ...order,
-                                customer: ev.target.value,
+                                first_name: ev.target.value,
                             })
                         }
                         type="text"
-                        field="customer"
+                        field="first_name"
                         autoComplete="given-name"
                     />
+                    <InputField
+                        content="Cognome"
+                        value={order.last_name}
+                        onChange={(ev) =>
+                            setOrder({
+                                ...order,
+                                last_name: ev.target.value,
+                            })
+                        }
+                        type="text"
+                        field="last_name"
+                        autoComplete="family-name"
+                    />
+                    <div className="flex flex-col space-y-2">
+                        <label htmlFor="order_items">
+                            Ordine (Separa gli elementi con il ; )
+                        </label>
+                        <textarea
+                            rows="10"
+                            className="resize-none rounded-md shadow-lg focus:bg-emerald-100"
+                            name="order_items"
+                            id="order_items"
+                            placeholder="Ordine"
+                            onChange={(ev) =>
+                                setOrder({
+                                    ...order,
+                                    order_items: ev.target.value,
+                                })
+                            }
+                        >
+                            {order.order_items}
+                        </textarea>
+                    </div>
                     <InputField
                         content="Indirizzo Email"
                         value={order.email}
@@ -169,6 +204,7 @@ export default function OrderForm() {
                             name="state"
                             id="pagato"
                             value="pagato"
+                            checked
                             onChange={(ev) =>
                                 setOrder({ ...order, state: ev.target.value })
                             }

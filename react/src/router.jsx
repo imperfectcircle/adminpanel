@@ -8,6 +8,7 @@ import NotFound from './Pages/NotFound';
 import Dashboard from './Pages/Dashboard';
 import UserForm from './Pages/UserForm';
 import Orders from './Pages/Orders';
+import OrderDetail from './Pages/OrderDetail';
 import OrderForm from './Pages/OrderForm';
 import Comics from './Pages/Comics';
 import ComicsForm from './Pages/ComicsForm';
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path: '/orders',
                 element: <Orders />,
+            },
+            {
+                path: '/orders/detail/:id',
+                element: <OrderDetail />,
             },
             {
                 path: '/orders/new',

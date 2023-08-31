@@ -22,8 +22,10 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer' => 'required|string|min:5',
-            'email' => 'required|email:rfc,dns',
+            'first_name' => 'required|string|min:3',
+            'last_name' => 'required|string|min:3',
+            'order_items' => 'required',
+            'email' => 'required|email',
             'amount' => 'required',
             'state' => 'required'
         ];
@@ -32,9 +34,13 @@ class UpdateOrderRequest extends FormRequest
     public function messages()
     {
         return [
-            'customer.required' => 'Il campo cliente è obbligatorio.',
-            'customer.string' => 'Il campo cliente deve essere di tipo testo.',
-            'customer.min' => 'Il campo cliente deve contenere almeno 5 caratteri.',
+            'first_name.required' => 'Il campo nome è obbligatorio.',
+            'first_name.string' => 'Il campo nome deve essere di tipo testo.',
+            'first_name.min' => 'Il campo nome deve contenere almeno 3 caratteri.',
+            'last_name.required' => 'Il campo cognome è obbligatorio.',
+            'last_name.string' => 'Il campo cognome deve essere di tipo testo.',
+            'last_name.min' => 'Il campo cognome deve contenere almeno 3 caratteri.',
+            'order_items.requires' => 'Il campo Ordine è obbligatorio',
             'email.required' => 'Il campo email è obbligatorio.',
             'email.email' => 'Inserisci un indirizzo email valido.',
             'amount.required' => 'Il campo totale è obbligatorio.',

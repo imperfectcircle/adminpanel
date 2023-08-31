@@ -35,8 +35,13 @@ export default function Orders() {
         if (inputText === '') {
             return order;
         } else {
+            const fullName =
+                `${order.first_name} ${order.last_name}`.toLowerCase();
+            const fullNameReverse =
+                `${order.last_name} ${order.first_name}`.toLowerCase();
             return (
-                order.customer.toLowerCase().includes(inputText) ||
+                fullName.includes(inputText) ||
+                fullNameReverse.includes(inputText) ||
                 order.email.toLowerCase().includes(inputText)
             );
         }
@@ -101,7 +106,7 @@ export default function Orders() {
                                         <td>{el.created_at}</td>
                                         <td>{el.id}</td>
                                         <td className="first-letter:uppercase">
-                                            {el.customer}
+                                            {`${el.first_name} ${el.last_name}`}
                                         </td>
                                         <td>
                                             <a
@@ -165,14 +170,16 @@ export default function Orders() {
                                 {orders.map((order) => (
                                     <tr className="text-center" key={order.id}>
                                         <td>{order.created_at}</td>
-                                        <td>{order.id}</td>
                                         <td>
-                                            {order.customer.length > 16
-                                                ? `${order.customer.slice(
-                                                      0,
-                                                      16,
-                                                  )}...`
-                                                : order.customer}
+                                            <Link
+                                                className="text-sky-600 underline"
+                                                to={`/orders/detail/${order.id}`}
+                                            >
+                                                {order.id}
+                                            </Link>
+                                        </td>
+                                        <td className="first-letter:uppercase">
+                                            {`${order.first_name} ${order.last_name}`}
                                         </td>
                                         <td>
                                             <a
@@ -195,7 +202,7 @@ export default function Orders() {
                                         <td className="space-x-3 px-6 py-3">
                                             <Link
                                                 className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
-                                                to={'/orders/' + order.id}
+                                                to={`/orders/${order.id}`}
                                             >
                                                 Modifica
                                             </Link>
