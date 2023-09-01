@@ -24,11 +24,11 @@ export default function Dropdown(props) {
             <AnimatePresence>
                 {menuIsVisible && (
                     <motion.div
-                        className="flex w-full flex-col bg-gray-100 p-3 pl-12"
+                        className="dropdown-container flex w-full flex-col bg-gray-100 p-3 pl-12"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.6 }}
+                        transition={{ duration: 0.3 }}
                     >
                         <Link
                             className="flex items-center text-lg text-black transition-all duration-150 hover:text-red-500"
