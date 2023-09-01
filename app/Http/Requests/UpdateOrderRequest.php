@@ -40,7 +40,7 @@ class UpdateOrderRequest extends FormRequest
             'last_name.required' => 'Il campo cognome è obbligatorio.',
             'last_name.string' => 'Il campo cognome deve essere di tipo testo.',
             'last_name.min' => 'Il campo cognome deve contenere almeno 3 caratteri.',
-            'order_items.requires' => 'Il campo Ordine è obbligatorio',
+            'order_items.required' => 'Il campo Ordine è obbligatorio',
             'email.required' => 'Il campo email è obbligatorio.',
             'email.email' => 'Inserisci un indirizzo email valido.',
             'amount.required' => 'Il campo totale è obbligatorio.',

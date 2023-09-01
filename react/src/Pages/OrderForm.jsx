@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
-import { useEffect, useState } from 'react';
-import axiosClient from '../axios-client';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InputField from '../Components/InputField';
 import { onSubmit } from '../Utilities/onSubmit';
+import { useGetDataForUpdate } from '../Hooks/useGetDataForUpdate';
 
 export default function OrderForm() {
     const { id } = useParams();
@@ -26,20 +26,7 @@ export default function OrderForm() {
     const updateText = `L'ordine numero ${order.id} è stato modificato correttamente.`;
     const createText = `L'ordine numero ${order.id} è stato creato.`;
 
-    useEffect(() => {
-        if (id) {
-            setLoading(true);
-            axiosClient
-                .get(`/orders/${id}`)
-                .then(({ data }) => {
-                    setLoading(false);
-                    setOrder(data);
-                })
-                .catch(() => {
-                    setLoading(false);
-                });
-        }
-    }, []);
+    useGetDataForUpdate(id, uri, setOrder, setLoading);
 
     const handleSubmit = onSubmit(
         order,
@@ -50,41 +37,6 @@ export default function OrderForm() {
         updateText,
         createText,
     );
-
-    // const onSubmit = (event) => {
-    //     event.preventDefault();
-    //     if (order.id) {
-    //         axiosClient
-    //             .put(`/orders/${order.id}`, order)
-    //             .then(() => {
-    //                 setNotification(
-    //                     `L'ordine numero ${order.id} è stato modificato correttamente.`,
-    //                 );
-    //                 navigate('/orders');
-    //             })
-    //             .catch((error) => {
-    //                 const response = error.response;
-    //                 if (response && response.status === 422) {
-    //                     setErrors(response.data.errors);
-    //                 }
-    //             });
-    //     } else {
-    //         axiosClient
-    //             .post(`/orders/`, order)
-    //             .then(() => {
-    //                 setNotification(
-    //                     `L'ordine numero ${order.id} è stato creato.`,
-    //                 );
-    //                 navigate('/orders');
-    //             })
-    //             .catch((error) => {
-    //                 const response = error.response;
-    //                 if (response && response.status === 422) {
-    //                     setErrors(response.data.errors);
-    //                 }
-    //             });
-    //     }
-    // };
 
     return (
         <>
@@ -162,6 +114,7 @@ export default function OrderForm() {
                             name="order_items"
                             id="order_items"
                             placeholder="Ordine"
+                            value={order.order_items}
                             onChange={(ev) =>
                                 setOrder({
                                     ...order,
@@ -204,7 +157,9 @@ export default function OrderForm() {
                             name="state"
                             id="pagato"
                             value="pagato"
-                            checked
+                            checked={
+                                order.state === 'pagato' ? 'checked' : null
+                            }
                             onChange={(ev) =>
                                 setOrder({ ...order, state: ev.target.value })
                             }
@@ -215,6 +170,9 @@ export default function OrderForm() {
                             name="state"
                             id="non pagato"
                             value="non pagato"
+                            checked={
+                                order.state === 'non pagato' ? 'checked' : null
+                            }
                             onChange={(ev) =>
                                 setOrder({ ...order, state: ev.target.value })
                             }

@@ -121,8 +121,8 @@ export default function Orders() {
                                             <div
                                                 className={
                                                     el.state === 'pagato'
-                                                        ? 'rounded-full bg-sky-400 px-2 py-2'
-                                                        : 'rounded-full bg-yellow-300 px-2 py-2'
+                                                        ? 'rounded-full bg-sky-400'
+                                                        : 'rounded-full bg-yellow-300'
                                                 }
                                             ></div>
                                         </td>

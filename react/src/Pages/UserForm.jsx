@@ -3,15 +3,15 @@
 
 //TODO check visivi password
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axiosClient from '../axios-client';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { Helmet } from 'react-helmet-async';
 
 import PasswordInput from '../Components/PasswordInput';
 import InputField from '../Components/InputField';
 import { onSubmit } from '../Utilities/onSubmit';
+import { useGetDataForUpdate } from '../Hooks/useGetDataForUpdate';
 
 export default function UserForm() {
     const { id } = useParams();
@@ -31,20 +31,7 @@ export default function UserForm() {
     const createText = `L'utente ${user.name} è stato creato.`;
     const uri = '/users/';
 
-    useEffect(() => {
-        if (id) {
-            setLoading(true);
-            axiosClient
-                .get(`/users/${id}`)
-                .then(({ data }) => {
-                    setLoading(false);
-                    setUser(data);
-                })
-                .catch(() => {
-                    setLoading(false);
-                });
-        }
-    }, []);
+    useGetDataForUpdate(id, uri, setUser, setLoading);
 
     const handleSubmit = onSubmit(
         user,
@@ -55,39 +42,6 @@ export default function UserForm() {
         updateText,
         createText,
     );
-
-    // const onSubmit = (event) => {
-    //     event.preventDefault();
-    //     if (user.id) {
-    //         axiosClient
-    //             .put(`/users/${user.id}`, user)
-    //             .then(() => {
-    //                 setNotification(
-    //                     `L'utente ${user.name} è stato modificato correttamente.`,
-    //                 );
-    //                 navigate('/users');
-    //             })
-    //             .catch((error) => {
-    //                 const response = error.response;
-    //                 if (response && response.status === 422) {
-    //                     setErrors(response.data.errors);
-    //                 }
-    //             });
-    //     } else {
-    //         axiosClient
-    //             .post(`/users/`, user)
-    //             .then(() => {
-    //                 setNotification(`L'utente ${user.name} è stato creato.`);
-    //                 navigate('/users');
-    //             })
-    //             .catch((error) => {
-    //                 const response = error.response;
-    //                 if (response && response.status === 422) {
-    //                     setErrors(response.data.errors);
-    //                 }
-    //             });
-    //     }
-    // };
 
     return (
         <>
