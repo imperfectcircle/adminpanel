@@ -101,11 +101,11 @@ export default function LoggedLayout() {
 
                         <Dropdown
                             icon={BsBook}
-                            menuName="Fumetti"
+                            menuName="Manga"
                             linkList="/comics"
-                            listName="Lista Fumetti"
+                            listName="Lista Manga"
                             linkNew="/comics/new"
-                            newName="Aggiungi Fumetto"
+                            newName="Aggiungi Manga"
                         />
 
                         <Dropdown

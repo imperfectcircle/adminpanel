@@ -11,7 +11,7 @@ class UpdateAuthorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class UpdateAuthorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'first_name' => 'required|string|min:3',
+            'last_name' => 'required|string|min:3'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'first_name.required' => 'Il campo Nome è obbligatorio.',
+            'first_name.min' => 'Il campo Nome deve contenere almeno 3 caratteri.',
+            'last_name.required' => 'Il campo Cognome è obbligatorio.',
+            'last_name.min' => 'Il campo Cognome deve contenere almeno 3 caratteri.',
         ];
     }
 }

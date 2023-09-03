@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\OrderController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\AuthorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthorController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ComicController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('/users', UserController::class);
     Route::apiResource('/orders', OrderController::class);
     Route::apiResource('/authors', AuthorController::class);
+    Route::apiResource('/comics', ComicController::class);
 });
 
 

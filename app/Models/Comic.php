@@ -12,8 +12,10 @@ class Comic extends Model
 
     protected $fillable = [
         'title',
+        'description',
         'year',
         'price',
+        'author_id',
     ];
 
     public function author() {

@@ -11,6 +11,7 @@ export const onSubmit = (
 ) => {
     return (event) => {
         event.preventDefault();
+
         if (data.id) {
             axiosClient
                 .put(`${uri}${data.id}`, data)

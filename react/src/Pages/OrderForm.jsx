@@ -139,7 +139,7 @@ export default function OrderForm() {
                         autoComplete="email"
                     />
                     <InputField
-                        content="Totale"
+                        content="Totale (es. 10,50)"
                         value={order.amount}
                         onChange={(ev) =>
                             setOrder({

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Author;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\AuthorResource;
 use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\UpdateAuthorRequest;
-use App\Http\Resources\AuthorResource;
 
 class AuthorController extends Controller
 {
@@ -15,7 +16,7 @@ class AuthorController extends Controller
     public function index()
     {
         return AuthorResource::collection(
-            Author::query()->with('comics')->orderBy('id', 'desc')->get()
+            Author::with('comics')->orderBy('id', 'desc')->get()
         );
     }
 

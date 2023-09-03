@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AuthorResource extends JsonResource
+class ComicResource extends JsonResource
 {
     public static $wrap = false;
     /**
@@ -17,9 +17,12 @@ class AuthorResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'comics' => $this->comics,
+            'title' => $this->title,
+            'description' => $this->description,
+            'year' => $this->year,
+            'price' => $this->price,
+            'author_id' => $this->author_id,
+            'author' => $this->author,
         ];
     }
 }

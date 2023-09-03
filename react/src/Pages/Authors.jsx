@@ -4,6 +4,7 @@ import { useGetData } from '../Hooks/useGetData';
 import axiosClient from '../axios-client';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import ComicsDropdown from '../Components/ComicsDropdown';
 
 export default function Authors() {
     const [authors, setAuthors] = useState([]);
@@ -11,7 +12,7 @@ export default function Authors() {
     const [inputText, setInputText] = useState('');
     const { setNotification } = useStateContext();
 
-    const getData = useGetData('/authors', setLoading, setAuthors);
+    const getAuthors = useGetData('/authors', setLoading, setAuthors);
 
     const onDelete = (author) => {
         if (
@@ -26,7 +27,7 @@ export default function Authors() {
             setNotification(
                 `L'autore ${author.first_name} ${author.last_name} è stato eliminato correttamente.`,
             );
-            getData();
+            getAuthors();
         });
     };
 
@@ -96,7 +97,14 @@ export default function Authors() {
                                         <td className="first-letter:uppercase">
                                             {el.last_name}
                                         </td>
-                                        <td>TO DO</td>
+                                        <td>
+                                            <div className="flex items-center justify-center">
+                                                <ComicsDropdown
+                                                    text="Opere"
+                                                    author={el}
+                                                />
+                                            </div>
+                                        </td>
 
                                         <td className="space-x-3 px-6 py-3">
                                             <Link
@@ -148,7 +156,14 @@ export default function Authors() {
                                         <td className="first-letter:uppercase">
                                             {author.last_name}
                                         </td>
-                                        <td className="flex items-center justify-center"></td>
+                                        <td>
+                                            <div className="flex items-center justify-center">
+                                                <ComicsDropdown
+                                                    text="Opere"
+                                                    author={author.comics}
+                                                />
+                                            </div>
+                                        </td>
                                         <td className="space-x-3 px-6 py-3">
                                             <Link
                                                 className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
