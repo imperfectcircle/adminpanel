@@ -89,10 +89,20 @@ export default function Comics() {
                                     <tr className="text-center" key={el.id}>
                                         <td>{el.id}</td>
                                         <td className="first-letter:uppercase">
-                                            {el.title}
+                                            <Link
+                                                className="text-sky-600 underline"
+                                                to={`/comics/detail/${el.id}`}
+                                            >
+                                                {el.title}
+                                            </Link>
                                         </td>
                                         <td className="first-letter:uppercase">
-                                            {`${el.author.first_name} ${el.author.last_name}`}
+                                            <Link
+                                                className="text-sky-600 underline"
+                                                to={`/authors/detail/${el.author.id}`}
+                                            >
+                                                {`${el.author.first_name} ${el.author.last_name}`}
+                                            </Link>
                                         </td>
                                         <td>{el.year}</td>
                                         <td>{el.price}</td>
@@ -141,9 +151,21 @@ export default function Comics() {
                                 {comics.map((comic) => (
                                     <tr className="text-center" key={comic.id}>
                                         <td>{comic.id}</td>
-                                        <td>{comic.title}</td>
+                                        <td>
+                                            <Link
+                                                className="text-sky-600 underline"
+                                                to={`/comics/detail/${comic.id}`}
+                                            >
+                                                {comic.title}
+                                            </Link>
+                                        </td>
                                         <td className="first-letter:uppercase">
-                                            {`${comic.author.first_name} ${comic.author.last_name}`}
+                                            <Link
+                                                className="text-sky-600 underline"
+                                                to={`/authors/detail/${comic.author.id}`}
+                                            >
+                                                {`${comic.author.first_name} ${comic.author.last_name}`}
+                                            </Link>
                                         </td>
                                         <td>{comic.year}</td>
                                         <td>{comic.price}</td>

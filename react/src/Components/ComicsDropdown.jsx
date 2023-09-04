@@ -31,7 +31,7 @@ export default function ComicsDropdown(props) {
                             <Link
                                 key={el.id}
                                 className="text-center text-lg text-black transition-all duration-150 hover:text-red-700"
-                                to="#"
+                                to={`/comics/detail/${el.id}`}
                             >
                                 {el.title}
                             </Link>

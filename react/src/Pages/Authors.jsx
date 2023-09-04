@@ -90,7 +90,14 @@ export default function Authors() {
                             <tbody>
                                 {filteredData.map((el) => (
                                     <tr className="text-center" key={el.id}>
-                                        <td>{el.id}</td>
+                                        <td>
+                                            <Link
+                                                className="text-sky-600 underline"
+                                                to={`/authors/detail/${el.id}`}
+                                            >
+                                                {el.id}
+                                            </Link>
+                                        </td>
                                         <td className="first-letter:uppercase">
                                             {el.first_name}
                                         </td>
@@ -101,7 +108,7 @@ export default function Authors() {
                                             <div className="flex items-center justify-center">
                                                 <ComicsDropdown
                                                     text="Opere"
-                                                    author={el}
+                                                    author={el.comics}
                                                 />
                                             </div>
                                         </td>
@@ -149,7 +156,14 @@ export default function Authors() {
                             <tbody>
                                 {authors.map((author) => (
                                     <tr className="text-center" key={author.id}>
-                                        <td>{author.id}</td>
+                                        <td>
+                                            <Link
+                                                className="text-sky-600 underline"
+                                                to={`/authors/detail/${author.id}`}
+                                            >
+                                                {author.id}
+                                            </Link>
+                                        </td>
                                         <td className="first-letter:uppercase">
                                             {author.first_name}
                                         </td>
