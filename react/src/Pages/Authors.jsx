@@ -82,7 +82,7 @@ export default function Authors() {
                                 <th>ID</th>
                                 <th>Nome</th>
                                 <th>Cognome</th>
-                                <th>Opere</th>
+                                <th>Manga a Catalogo</th>
                                 <th>Azioni</th>
                             </tr>
                         </thead>
@@ -107,7 +107,7 @@ export default function Authors() {
                                         <td>
                                             <div className="flex items-center justify-center">
                                                 <ComicsDropdown
-                                                    text="Opere"
+                                                    text="Manga"
                                                     author={el.comics}
                                                 />
                                             </div>
@@ -173,7 +173,7 @@ export default function Authors() {
                                         <td>
                                             <div className="flex items-center justify-center">
                                                 <ComicsDropdown
-                                                    text="Opere"
+                                                    text="Manga"
                                                     author={author.comics}
                                                 />
                                             </div>
