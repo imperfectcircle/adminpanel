@@ -36,19 +36,36 @@ export default function Dashboard() {
                     <div className="grid grid-cols-4 gap-5">
                         <div className="space-y-5 rounded-lg bg-gray-200 p-10 text-center font-bold shadow-md">
                             <p className="text-xl">Numero Utenti</p>
-                            <p className="text-4xl">{data.countUsers}</p>
+                            <Link to="/users" className="text-4xl text-sky-600">
+                                <p className="pt-5">{data.countUsers}</p>
+                            </Link>
                         </div>
                         <div className="space-y-5 rounded-lg bg-gray-200 p-10 text-center font-bold shadow-md">
                             <p className="text-xl">Numero Ordini</p>
-                            <p className="text-4xl">{data.countOrders}</p>
+                            <Link
+                                to="/orders"
+                                className="text-4xl text-sky-600"
+                            >
+                                <p className="pt-5">{data.countOrders}</p>
+                            </Link>
                         </div>
                         <div className="space-y-5 rounded-lg bg-gray-200 p-10 text-center font-bold shadow-md">
                             <p className="text-xl">Numero Autori</p>
-                            <p className="text-4xl">{data.countAuthors}</p>
+                            <Link
+                                to="/authors"
+                                className="text-4xl text-sky-600"
+                            >
+                                <p className="pt-5">{data.countAuthors}</p>
+                            </Link>
                         </div>
                         <div className="space-y-5 rounded-lg bg-gray-200 p-10 text-center font-bold shadow-md">
                             <p className="text-xl">Numero Manga</p>
-                            <p className="text-4xl">{data.countComics}</p>
+                            <Link
+                                to="/comics"
+                                className="text-4xl text-sky-600"
+                            >
+                                <p className="pt-5">{data.countComics}</p>
+                            </Link>
                         </div>
                         <div className="col-span-4 rounded-lg bg-gray-200 p-10 text-center shadow-md">
                             <div className="space-y-5">
@@ -61,7 +78,7 @@ export default function Dashboard() {
                                         className="flex space-x-2 text-xl"
                                     >
                                         <Link
-                                            className="text-sky-600 underline"
+                                            className="text-sky-600"
                                             to={`/orders/detail/${order.id}`}
                                         >
                                             Ordine #{order.id}

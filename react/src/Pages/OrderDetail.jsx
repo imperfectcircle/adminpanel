@@ -64,7 +64,7 @@ export default function OrderDetail() {
                         <p>Email di contatto</p>
                         <a
                             href={`mailto:${order.email}`}
-                            className="text-xl text-sky-600 underline"
+                            className="text-xl text-sky-600"
                         >
                             {order.email}
                         </a>

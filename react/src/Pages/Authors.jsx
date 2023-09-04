@@ -92,7 +92,7 @@ export default function Authors() {
                                     <tr className="text-center" key={el.id}>
                                         <td>
                                             <Link
-                                                className="text-sky-600 underline"
+                                                className="text-sky-600"
                                                 to={`/authors/detail/${el.id}`}
                                             >
                                                 {el.id}
@@ -158,7 +158,7 @@ export default function Authors() {
                                     <tr className="text-center" key={author.id}>
                                         <td>
                                             <Link
-                                                className="text-sky-600 underline"
+                                                className="text-sky-600"
                                                 to={`/authors/detail/${author.id}`}
                                             >
                                                 {author.id}

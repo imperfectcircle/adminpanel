@@ -51,7 +51,7 @@ export default function ComicDetail() {
                             <p>Autore</p>
                             <Link
                                 to={`/authors/detail/${comic.author.id}`}
-                                className="mr-3 text-xl text-sky-600 underline first-letter:uppercase"
+                                className="mr-3 text-xl text-sky-600 first-letter:uppercase"
                             >
                                 {`${comic.author.first_name} ${comic.author.last_name}`}
                             </Link>

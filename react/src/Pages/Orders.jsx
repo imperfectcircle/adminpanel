@@ -110,7 +110,7 @@ export default function Orders() {
                                         </td>
                                         <td>
                                             <a
-                                                className="text-sky-600 underline"
+                                                className="text-sky-600"
                                                 href={`mailto:${el.email}`}
                                             >
                                                 {el.email}
@@ -172,7 +172,7 @@ export default function Orders() {
                                         <td>{order.created_at}</td>
                                         <td>
                                             <Link
-                                                className="text-sky-600 underline"
+                                                className="text-sky-600"
                                                 to={`/orders/detail/${order.id}`}
                                             >
                                                 {order.id}
@@ -183,7 +183,7 @@ export default function Orders() {
                                         </td>
                                         <td>
                                             <a
-                                                className="text-sky-600 underline"
+                                                className="text-sky-600"
                                                 href={`mailto:${order.email}`}
                                             >
                                                 {order.email}

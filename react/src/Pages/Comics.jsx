@@ -90,7 +90,7 @@ export default function Comics() {
                                         <td>{el.id}</td>
                                         <td className="first-letter:uppercase">
                                             <Link
-                                                className="text-sky-600 underline"
+                                                className="text-sky-600"
                                                 to={`/comics/detail/${el.id}`}
                                             >
                                                 {el.title}
@@ -98,7 +98,7 @@ export default function Comics() {
                                         </td>
                                         <td className="first-letter:uppercase">
                                             <Link
-                                                className="text-sky-600 underline"
+                                                className="text-sky-600"
                                                 to={`/authors/detail/${el.author.id}`}
                                             >
                                                 {`${el.author.first_name} ${el.author.last_name}`}
@@ -153,7 +153,7 @@ export default function Comics() {
                                         <td>{comic.id}</td>
                                         <td>
                                             <Link
-                                                className="text-sky-600 underline"
+                                                className="text-sky-600 "
                                                 to={`/comics/detail/${comic.id}`}
                                             >
                                                 {comic.title}
@@ -161,7 +161,7 @@ export default function Comics() {
                                         </td>
                                         <td className="first-letter:uppercase">
                                             <Link
-                                                className="text-sky-600 underline"
+                                                className="text-sky-600 "
                                                 to={`/authors/detail/${comic.author.id}`}
                                             >
                                                 {`${comic.author.first_name} ${comic.author.last_name}`}

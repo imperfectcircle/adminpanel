@@ -61,7 +61,7 @@ export default function AuthorDetail() {
                                 <Link
                                     to={`/comics/detail/${comic.id}`}
                                     key={comic.id}
-                                    className="mr-3 text-xl text-sky-600 underline first-letter:uppercase"
+                                    className="mr-3 text-xl text-sky-600 first-letter:uppercase"
                                 >
                                     {comic.title}
                                 </Link>
