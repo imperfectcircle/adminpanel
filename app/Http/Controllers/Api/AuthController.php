@@ -22,9 +22,8 @@ class AuthController extends Controller
 
         /** @var User $user */
         $user = Auth::user();
-        $token = $user->createToken('main')->plainTextToken;
-
-        return response(compact('user', 'token'));
+        $token = $user->createToken('access_token')->plainTextToken;
+        return response(compact('user', 'token'))->cookie('access_token', $token, 60 * 24 * 7);
     }
 
     public function signup(SignupRequest $request) {
@@ -37,15 +36,15 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        $token = $user->createToken('main')->plainTextToken;
+        $token = $user->createToken('access_token')->plainTextToken;
 
-        return response(compact('user', 'token'));
+        return response(compact('user', 'token'))->cookie('access_token', $token, 60 * 24 * 7);
     }
 
     public function logout(Request $request) {
         /** @var User $user */
         $user = $request->user();
         $user->currentAccessToken()->delete();
-        return response('', 204);
+        return response('', 204)->cookie('access_token', '', -1);
     }
 }

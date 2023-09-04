@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from 'react';
+import Cookies from 'js-cookie';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const StateContext = createContext({
     user: null,
@@ -13,7 +14,7 @@ const StateContext = createContext({
 export const ContextProvider = ({ children }) => {
     const [user, setUser] = useState({});
     const [notification, _setNotification] = useState('');
-    const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
+    const [token, setToken] = useState(Cookies.get('access_token'));
 
     const setNotification = (message) => {
         _setNotification(message);
@@ -22,14 +23,22 @@ export const ContextProvider = ({ children }) => {
         }, 5000);
     };
 
-    const setToken = (token) => {
-        _setToken(token);
-        if (token) {
-            localStorage.setItem('ACCESS_TOKEN', token);
-        } else {
-            localStorage.removeItem('ACCESS_TOKEN');
+    useEffect(() => {
+        // L'effetto collaterale per leggere il token dai cookie quando il componente viene montato
+        const storedToken = Cookies.get('access_token');
+        if (storedToken) {
+            setToken(storedToken);
         }
-    };
+    }, []);
+
+    // const setToken = (token) => {
+    //     _setToken(token);
+    //     if (token) {
+    //         localStorage.setItem('ACCESS_TOKEN', token);
+    //     } else {
+    //         localStorage.removeItem('ACCESS_TOKEN');
+    //     }
+    // };
 
     return (
         <StateContext.Provider
@@ -38,7 +47,14 @@ export const ContextProvider = ({ children }) => {
                 token,
                 notification,
                 setUser,
-                setToken,
+                setToken: (token) => {
+                    Cookies.set('access_token', token, {
+                        expires: 7,
+                        sameSite: 'strict',
+                        secure: true,
+                    });
+                    setToken(token);
+                },
                 setNotification,
             }}
         >
