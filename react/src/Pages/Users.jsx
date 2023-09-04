@@ -13,23 +13,6 @@ export default function Users() {
 
     const getData = useGetData('/users', setLoading, setUsers);
 
-    // useEffect(() => {
-    //     getUsers();
-    // }, []);
-
-    // const getUsers = () => {
-    //     setLoading(true);
-    //     axiosClient
-    //         .get('/users')
-    //         .then(({ data }) => {
-    //             setLoading(false);
-    //             setUsers(data.data);
-    //         })
-    //         .catch(() => {
-    //             setLoading(false);
-    //         });
-    // };
-
     const onDelete = (user) => {
         if (!window.confirm(`Stai per eliminare l'utente ${user.name}`)) {
             return;

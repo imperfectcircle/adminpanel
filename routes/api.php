@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ComicController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OrderController;
 
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('/orders', OrderController::class);
     Route::apiResource('/authors', AuthorController::class);
     Route::apiResource('/comics', ComicController::class);
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 });
 
 
