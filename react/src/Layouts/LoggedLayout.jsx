@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Navigate, Outlet } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
 import { HiUserCircle, HiChartPie, HiUser } from 'react-icons/hi';
@@ -9,12 +9,17 @@ import { AnimatePresence, motion } from 'framer-motion';
 import axiosClient from '../axios-client';
 import Dropdown from '../Components/Dropdown';
 import { useLogoutPopup } from '../Hooks/useLogoutPopup';
+import { automaticLogout } from '../Utilities/automaticLogout,js';
 
 export default function LoggedLayout() {
     useEffect(() => {
         axiosClient.get('/user').then(({ data }) => {
             setUser(data);
         });
+    }, []);
+
+    useEffect(() => {
+        automaticLogout(setUser, setToken);
     }, []);
 
     const [popupIsVisible, togglePopupVisibility] = useLogoutPopup();

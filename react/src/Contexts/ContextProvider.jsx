@@ -24,21 +24,11 @@ export const ContextProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        // L'effetto collaterale per leggere il token dai cookie quando il componente viene montato
         const storedToken = Cookies.get('access_token');
         if (storedToken) {
             setToken(storedToken);
         }
     }, []);
-
-    // const setToken = (token) => {
-    //     _setToken(token);
-    //     if (token) {
-    //         localStorage.setItem('ACCESS_TOKEN', token);
-    //     } else {
-    //         localStorage.removeItem('ACCESS_TOKEN');
-    //     }
-    // };
 
     return (
         <StateContext.Provider
