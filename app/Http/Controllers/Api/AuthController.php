@@ -17,7 +17,8 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) {
             return response([
                 'message' => 'Il nome utente o la password sono errati.'
-            ], 422);
+            ], 422)->header('Access-Control-Allow-Origin', 'https://demo.fabioangelici.com')
+                ->header('Access-Control-Allow-Credentials', 'true');
         }
 
         /** @var User $user */
