@@ -11,9 +11,5 @@ export const usePasswordVisibility = (initialState = false) => {
         return [passwordIsVisible, togglePasswordVisibility];
     }, [passwordIsVisible]);
 
-    // const PasswordIcon = passwordIsVisible
-    //     ? AiOutlineEyeInvisible
-    //     : AiOutlineEye;
-
     return memoizedState;
 };

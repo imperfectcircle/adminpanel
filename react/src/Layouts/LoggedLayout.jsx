@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import axiosClient from '../axios-client';
 import Dropdown from '../Components/Dropdown';
 import { useLogoutPopup } from '../Hooks/useLogoutPopup';
-import { automaticLogout } from '../Utilities/automaticLogout,js';
+import { automaticLogout } from '../Utilities/automaticLogout.js';
 
 export default function LoggedLayout() {
     useEffect(() => {

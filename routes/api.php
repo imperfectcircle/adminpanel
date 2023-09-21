@@ -20,7 +20,7 @@ use App\Http\Controllers\Api\OrderController;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function() {
+Route::middleware(['auth:sanctum', 'CORS'])->group(function() {
     Route::get('/user', function (Request $request) {
     return $request->user();
     });

@@ -17,14 +17,14 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) {
             return response([
                 'message' => 'Il nome utente o la password sono errati.'
-            ], 422)->header('Access-Control-Allow-Origin', 'https://demo.fabioangelici.com')
-                ->header('Access-Control-Allow-Credentials', 'true');
+            ], 422);
         }
 
         /** @var User $user */
         $user = Auth::user();
         $token = $user->createToken('access_token')->plainTextToken;
-        return response(compact('user', 'token'))->cookie('access_token', $token, 60 * 24 * 7);
+        return response(compact('user', 'token'))->cookie('access_token', $token, 60 * 24 * 7)->header('Access-Control-Allow-Origin', 'https://demo.fabioangelici.com')
+                ->header('Access-Control-Allow-Credentials', 'true');
     }
 
     public function signup(SignupRequest $request) {
